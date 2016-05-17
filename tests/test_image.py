@@ -1,5 +1,5 @@
 import unittest2 as unittest
-from casacore.images import *
+from casacore.images import image
 import numpy
 import tempfile
 import os
@@ -51,3 +51,7 @@ class TestImage(unittest.TestCase):
         imex2.tofits('timage.py_tmp.fits')
         imex3 = image('timage.py_tmp.fits')
         print(imex3.getdata())
+
+    def test_get_fits_header(self):
+        im = image("", shape=[4, 3])
+        fits_header = im.get_fits_header()

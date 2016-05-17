@@ -31,6 +31,7 @@
 #include <casacore/python/Converters/PycRecord.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
+#include "fitsconverter.h"
 
 using namespace boost::python;
 
@@ -151,6 +152,7 @@ namespace casacore { namespace python {
              boost::python::arg("refchange"),
              boost::python::arg("forceregrid")))
     ;
+    def ("get_fits_header", get_fits_header);
   }
 
 }}

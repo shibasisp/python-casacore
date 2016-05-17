@@ -26,7 +26,7 @@
 # $Id$
 
 # Make interface to class ImageProxy available.
-from ._images import Image
+from ._images import Image, get_fits_header
 
 import numpy
 
@@ -514,6 +514,12 @@ class image(Image):
         """
         return self._tofits(filename, overwrite, velocity, optical,
                             bitpix, minpix, maxpix)
+
+    def get_fits_header(self):
+        """
+        Returns the image meta data as a fits header string.
+        """
+        return get_fits_header(self)
 
     def saveas(self, filename, overwrite=True, hdf5=False,
                copymask=True, newmaskname="", newtileshape=()):
