@@ -36,6 +36,7 @@ class TestTable(unittest.TestCase):
             self.assertEqual(len(t), 0)
             print(str(t))
             self.assertEqual(t.endianformat(), 'little')
+        tabledelete("ttable.py_tmp.tab1")
 
     # ASCII table
     def test_tableascii(self):
@@ -73,6 +74,7 @@ class TestTable(unittest.TestCase):
             self.assertEqual(t.coldatatype("colb"), 'boolean')
             self.assertEqual(t.coldatatype("colc"), 'dcomplex')
             self.assertEqual(t.coldatatype("colarr"), 'double')
+        tabledelete("ttable.py_tmp.tab1")
 
     # Add rows and put data
     def test_check_putdata(self):
@@ -96,6 +98,7 @@ class TestTable(unittest.TestCase):
                 t.getcol('cold'), numpy.array([4., 5.]))
             t.removerows(1)
             self.assertEqual(t.nrows(), 1)
+        tabledelete("ttable.py_tmp.tab1")
 
     # Add columns
 
@@ -116,6 +119,7 @@ class TestTable(unittest.TestCase):
             t.renamecol("col2", "ncol2")
             self.assertNotIn('col2', t.colnames())
             self.assertIn('ncol2', t.colnames())
+        tabledelete("ttable.py_tmp.tab1")
 
     # iter
     def test_iter(self):
@@ -130,6 +134,7 @@ class TestTable(unittest.TestCase):
             t.addrows(2)
             for iter_ in t.iter('coli', sort=False):
                 print(iter_.getcol('coli'), iter_.rownumbers(t))
+        tabledelete("ttable.py_tmp.tab1")
 
     # copy and rename
     def test_copyandrename(self):
@@ -152,6 +157,7 @@ class TestTable(unittest.TestCase):
             self.assertEqual(t_copy.name().split('/')[-1], 'renamedttabel.tab1')
             t_copy.done()
             tabledelete("renamedttabel.tab1")
+        tabledelete("ttable.py_tmp.tab1")
 
     # Create a subset
     def test_subset(self):
@@ -169,6 +175,7 @@ class TestTable(unittest.TestCase):
             taqlcol = t1.colnames()
             self.assertEqual(querycols, taqlcol)
             t1.close()
+        tabledelete("ttable.py_tmp.tab1")
 
     # Add some columns
     def test_adddmcolumns(self):
@@ -213,6 +220,7 @@ class TestTable(unittest.TestCase):
             numpy.testing.assert_array_equal(t.getcellslice('colarrtsm', 0, [1, 1], [
                                              1, 2]), numpy.array([[5. + 0.j, 6. + 0.j]]))
             print(t.getvarcol('colarrtsm'))
+        tabledelete("ttable.py_tmp.tab1")
 
     # Do keyword handling
     def test_keywords(self):
@@ -252,6 +260,7 @@ class TestTable(unittest.TestCase):
             # Update a few fields in the row
             tr[0] = {'coli': 10, 'cold': 14}
             self.assertEqual(tr[0]['coli'], 10)
+        tabledelete("ttable.py_tmp.tab1")
 
     # Some TaQL calculations
     def test_taqlcalc(self):
@@ -267,6 +276,7 @@ class TestTable(unittest.TestCase):
             numpy.testing.assert_array_almost_equal(
                 t.calc("(1 km)cm"), numpy.array([100000.]))
             numpy.testing.assert_array_equal(t.calc("coli+1"), numpy.array([1, 1]))
+        tabledelete("ttable.py_tmp.tab1")
 
     # Add some more data.
     def test_adddata(self):
@@ -282,6 +292,7 @@ class TestTable(unittest.TestCase):
             for i in range(2, 22):
                 t.putcell('coli', i, i / 2)
             print(t[10])
+        tabledelete("ttable.py_tmp.tab1")
 
     # Table column
     def test_tablecolumn(self):
@@ -322,6 +333,7 @@ class TestTable(unittest.TestCase):
                 numpy.testing.assert_equal(tc.getvarcol()['r1'], 0)
                 tc.putcell(2, 55)
                 self.assertEqual(tc[2], 55)
+        tabledelete("ttable.py_tmp.tab1")
 
     # Delete some columns.
     def test_deletecols(self):
@@ -336,6 +348,7 @@ class TestTable(unittest.TestCase):
             a = ['colarr', 'cols', 'colb', 'colc']
             t.removecols(a)
             self.assertNotIn(a, t.colnames())
+        tabledelete("ttable.py_tmp.tab1")
 
     # table row
     def test_tablerow(self):
@@ -355,6 +368,7 @@ class TestTable(unittest.TestCase):
                 tr[1] = tr[0]
                 tr[0] = {"key": "value"}
                 self.assertTrue(tr.iswritable())
+        tabledelete("ttable.py_tmp.tab1")
 
     # subtables
     def test_subtables(self):
@@ -369,6 +383,7 @@ class TestTable(unittest.TestCase):
             sub = table("sub", maketabdesc((c1, c2, c3)))
             t.putkeyword("subtablename", sub, makesubrecord=True)
             print(t.getsubtables())
+        tabledelete("ttable.py_tmp.tab1")
 
     # Table index
     def test_tableindex(self):
@@ -389,6 +404,7 @@ class TestTable(unittest.TestCase):
             print(ti.rownrs(2))
             print(ti.rownrs(2, 7))                   # include borders
             print(ti.rownrs(2, 7, False, False))     # exclude borders
+        tabledelete("ttable.py_tmp.tab1")
 
     def test_msutil(self):
         datacoldesc = makearrcoldesc("DATA", 0., ndim=2, shape=[20, 4])
@@ -459,6 +475,7 @@ class TestTable(unittest.TestCase):
         tabledefinehypercolumn(td, "TiledArray", 4, ["arr1"])
         tab = table("mytable", tabledesc=td, nrow=100)
         tab.done()
+        tabledelete("mytable")
 
     def test_required_desc(self):
         #=============================================
