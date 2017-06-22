@@ -9,7 +9,7 @@ import numpy
 class TestTable(unittest.TestCase):
 
     # Test table info
-    
+
     def test_tableinfo(self):
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
@@ -17,25 +17,26 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            self.assertTrue(tableexists("ttable.py_tmp.tab1"))
-            self.assertTrue(tableiswritable("ttable.py_tmp.tab1"))
-            self.assertEqual(t.nrows(), 0)
-            self.assertEqual(t.ncols(), 6)
-            self.assertEqual(t.colnames(), ['cols', 'colc', 'coli', 'cold',
-                                            'colb', 'colarr'])
-            self.assertEqual(tableinfo("ttable.py_tmp.tab1"),
-                             {'readme': '', 'subType': '', 'type': ''})
-            t.addreadmeline("test table run")
-            t.putinfo({'type': 'test', 'subType': 'test1'})
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        self.assertTrue(tableexists("ttable.py_tmp.tab1"))
+        self.assertTrue(tableiswritable("ttable.py_tmp.tab1"))
+        self.assertEqual(t.nrows(), 0)
+        self.assertEqual(t.ncols(), 6)
+        self.assertEqual(t.colnames(), ['cols', 'colc', 'coli', 'cold',
+                                        'colb', 'colarr'])
+        self.assertEqual(tableinfo("ttable.py_tmp.tab1"),
+                         {'readme': '', 'subType': '', 'type': ''})
+        t.addreadmeline("test table run")
+        t.putinfo({'type': 'test', 'subType': 'test1'})
 
-            self.assertEqual(t.info()['readme'], 'test table run\n')
-            self.assertEqual(t.info()['subType'], 'test1')
-            self.assertEqual(t.info()['type'], 'test')
-            self.assertEqual(len(t), 0)
-            print(str(t))
-            self.assertEqual(t.endianformat(), 'little')
+        self.assertEqual(t.info()['readme'], 'test table run\n')
+        self.assertEqual(t.info()['subType'], 'test1')
+        self.assertEqual(t.info()['type'], 'test')
+        self.assertEqual(len(t), 0)
+        print(str(t))
+        self.assertEqual(t.endianformat(), 'little')
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # ASCII table
@@ -46,16 +47,17 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
 
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5)),
-                   ack=False) as t:
-            tcol = t.colnames()
-            t.addrows(5)
-            t.toascii('asciitemp1', columnnames=tcol)
-            tablefromascii(tablename='tablefromascii', asciifile='asciitemp1')
-            ta = table("tablefromascii", readonly=False)
-            tacol = ta.colnames()
-            self.assertEqual(tcol, tacol)
-            ta.close()
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5)),
+                  ack=False)
+        tcol = t.colnames()
+        t.addrows(5)
+        t.toascii('asciitemp1', columnnames=tcol)
+        tablefromascii(tablename='tablefromascii', asciifile='asciitemp1')
+        ta = table("tablefromascii", readonly=False)
+        tacol = ta.colnames()
+        self.assertEqual(tcol, tacol)
+        ta.close()
+        t.close()
         tabledelete('tablefromascii')
         tabledelete("ttable.py_tmp.tab1")
 
@@ -67,14 +69,15 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            self.assertEqual(t.coldatatype("coli"), 'int')
-            self.assertEqual(t.coldatatype("cold"), 'double')
-            self.assertEqual(t.coldatatype("cols"), 'string')
-            self.assertEqual(t.coldatatype("colb"), 'boolean')
-            self.assertEqual(t.coldatatype("colc"), 'dcomplex')
-            self.assertEqual(t.coldatatype("colarr"), 'double')
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        self.assertEqual(t.coldatatype("coli"), 'int')
+        self.assertEqual(t.coldatatype("cold"), 'double')
+        self.assertEqual(t.coldatatype("cols"), 'string')
+        self.assertEqual(t.coldatatype("colb"), 'boolean')
+        self.assertEqual(t.coldatatype("colc"), 'dcomplex')
+        self.assertEqual(t.coldatatype("colarr"), 'double')
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Add rows and put data
@@ -85,20 +88,21 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(2)
-            self.assertEqual(t.nrows(), 2)
-            numpy.testing.assert_array_equal(t.getcol('coli'), numpy.array([0, 0]))
-            t.putcol("coli", (1, 2))
-            numpy.testing.assert_array_equal(t.getcol('coli'), numpy.array([1, 2]))
-            numpy.testing.assert_array_equal(
-                t.getcol('cold'), numpy.array([0., 0.]))
-            t.putcol("cold", t.getcol('coli') + 3)
-            numpy.testing.assert_array_equal(
-                t.getcol('cold'), numpy.array([4., 5.]))
-            t.removerows(1)
-            self.assertEqual(t.nrows(), 1)
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                    c6)), ack=False)
+        t.addrows(2)
+        self.assertEqual(t.nrows(), 2)
+        numpy.testing.assert_array_equal(t.getcol('coli'), numpy.array([0, 0]))
+        t.putcol("coli", (1, 2))
+        numpy.testing.assert_array_equal(t.getcol('coli'), numpy.array([1, 2]))
+        numpy.testing.assert_array_equal(
+            t.getcol('cold'), numpy.array([0., 0.]))
+        t.putcol("cold", t.getcol('coli') + 3)
+        numpy.testing.assert_array_equal(
+            t.getcol('cold'), numpy.array([4., 5.]))
+        t.removerows(1)
+        self.assertEqual(t.nrows(), 1)
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Add columns
@@ -110,16 +114,17 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(2)
-            cd1 = makecoldesc("col2", t.getcoldesc('coli'))
-            t.addcols(cd1)
-            self.assertEqual(t.ncols(), 7)
-            self.assertIn('col2', t.colnames())
-            t.renamecol("col2", "ncol2")
-            self.assertNotIn('col2', t.colnames())
-            self.assertIn('ncol2', t.colnames())
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(2)
+        cd1 = makecoldesc("col2", t.getcoldesc('coli'))
+        t.addcols(cd1)
+        self.assertEqual(t.ncols(), 7)
+        self.assertIn('col2', t.colnames())
+        t.renamecol("col2", "ncol2")
+        self.assertNotIn('col2', t.colnames())
+        self.assertIn('ncol2', t.colnames())
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # iter
@@ -130,11 +135,12 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(2)
-            for iter_ in t.iter('coli', sort=False):
-                print(iter_.getcol('coli'), iter_.rownumbers(t))
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(2)
+        for iter_ in t.iter('coli', sort=False):
+            print(iter_.getcol('coli'), iter_.rownumbers(t))
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # copy and rename
@@ -145,19 +151,20 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t_copy = tablecopy("ttable.py_tmp.tab1", "ttabel.tab1")
-            self.assertEqual(t.name().split('/')[-1], 'ttable.py_tmp.tab1')
-            self.assertEqual(t_copy.name().split('/')[-1], 'ttabel.tab1')
-            numofrows = t.nrows()
-            numofcols = t.ncols()
-            self.assertEqual(t_copy.nrows(), numofrows)
-            self.assertEqual(t_copy.ncols(), numofcols)
-            tablerename("ttabel.tab1", "renamedttabel.tab1")
-            self.assertEqual(t_copy.name().split('/')[-1], 'renamedttabel.tab1')
-            t_copy.done()
-            tabledelete("renamedttabel.tab1")
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t_copy = tablecopy("ttable.py_tmp.tab1", "ttabel.tab1")
+        self.assertEqual(t.name().split('/')[-1], 'ttable.py_tmp.tab1')
+        self.assertEqual(t_copy.name().split('/')[-1], 'ttabel.tab1')
+        numofrows = t.nrows()
+        numofcols = t.ncols()
+        self.assertEqual(t_copy.nrows(), numofrows)
+        self.assertEqual(t_copy.ncols(), numofcols)
+        tablerename("ttabel.tab1", "renamedttabel.tab1")
+        self.assertEqual(t_copy.name().split('/')[-1], 'renamedttabel.tab1')
+        t_copy.done()
+        tabledelete("renamedttabel.tab1")
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Create a subset
@@ -168,14 +175,15 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t1 = t.query('coli >0', sortlist='coli desc', columns='coli,cold')
-            querycols = t1.colnames()
-            t1 = taql('select coli,cold from $t where coli>0 order by coli desc')
-            taqlcol = t1.colnames()
-            self.assertEqual(querycols, taqlcol)
-            t1.close()
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t1 = t.query('coli >0', sortlist='coli desc', columns='coli,cold')
+        querycols = t1.colnames()
+        t1 = taql('select coli,cold from $t where coli>0 order by coli desc')
+        taqlcol = t1.colnames()
+        self.assertEqual(querycols, taqlcol)
+        t1.close()
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Add some columns
@@ -186,41 +194,43 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            # A scalar with the IncrementalStMan storage manager
-            t.addcols(maketabdesc(makescacoldesc("coli2", 0)),
-                      dminfo={'TYPE': "IncrementalStMan", 'NAME': "ism1",
-                              'SPEC': {}})
-            self.assertIn("coli2", t.colnames())
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        # A scalar with the IncrementalStMan storage manager
+        t.addcols(maketabdesc(makescacoldesc("coli2", 0)),
+                  dminfo={'TYPE': "IncrementalStMan", 'NAME': "ism1",
+                          'SPEC': {}})
+        self.assertIn("coli2", t.colnames())
 
-            # An array with the StandardStMan
-            t.addcols(maketabdesc(makearrcoldesc("colarrssm", "")))
-            self.assertIn("colarrssm", t.colnames())
+        # An array with the StandardStMan
+        t.addcols(maketabdesc(makearrcoldesc("colarrssm", "")))
+        self.assertIn("colarrssm", t.colnames())
 
-            # An array with the TiledShapeStMan
-            t.addcols(maketabdesc(makearrcoldesc("colarrtsm", 0. + 0j, ndim=2)),
-                      dminfo={'TYPE': "TiledShapeStMan", 'NAME': "tsm1",
-                              'SPEC': {}})
-            self.assertIn("colarrtsm", t.colnames())
-            print(t.getdminfo())
-            coldmi = t.getdminfo('colarrtsm')
-            print(t.getcoldesc('colarrtsm'))
-            coldmi["NAME"] = 'tsm2'
-            t.addcols(maketabdesc(makearrcoldesc(
-                "colarrtsm2", 0., ndim=2)), coldmi)
-            self.assertEqual(t.getdminfo('colarrtsm2')["NAME"], 'tsm2')
-            t.removecols('colarrtsm2')
+        # An array with the TiledShapeStMan
+        t.addcols(maketabdesc(makearrcoldesc("colarrtsm", 0. + 0j, ndim=2)),
+                  dminfo={'TYPE': "TiledShapeStMan", 'NAME': "tsm1",
+                          'SPEC': {}})
+        self.assertIn("colarrtsm", t.colnames())
+        print(t.getdminfo())
+        coldmi = t.getdminfo('colarrtsm')
+        print(t.getcoldesc('colarrtsm'))
+        coldmi["NAME"] = 'tsm2'
+        t.addcols(maketabdesc(makearrcoldesc(
+            "colarrtsm2", 0., ndim=2)), coldmi)
+        self.assertEqual(t.getdminfo('colarrtsm2')["NAME"], 'tsm2')
+        t.removecols('colarrtsm2')
 
-            # Write some data.
-            t.addrows(22)
-            t.putcell('colarrtsm', 0, numpy.array([[1, 2, 3], [4, 5, 6]]))
-            t.putcell('colarrtsm', 1, t.getcell('colarrtsm', 0) + 10)
-            self.assertEqual(t.getcell('colarrtsm', 0)[1, 2], 6)
-            print(t.getvarcol('colarrtsm'))
-            numpy.testing.assert_array_equal(t.getcellslice('colarrtsm', 0, [1, 1], [
-                                             1, 2]), numpy.array([[5. + 0.j, 6. + 0.j]]))
-            print(t.getvarcol('colarrtsm'))
+        # Write some data.
+        t.addrows(22)
+        t.putcell('colarrtsm', 0, numpy.array([[1, 2, 3], [4, 5, 6]]))
+        t.putcell('colarrtsm', 1, t.getcell('colarrtsm', 0) + 10)
+        self.assertEqual(t.getcell('colarrtsm', 0)[1, 2], 6)
+        print(t.getvarcol('colarrtsm'))
+        numpy.testing.assert_array_equal(t.getcellslice('colarrtsm', 0, [1, 1],
+                                         [1, 2]),
+                                         numpy.array([[5. + 0.j, 6. + 0.j]]))
+        print(t.getvarcol('colarrtsm'))
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Do keyword handling
@@ -231,36 +241,37 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(2)
-            t.putkeyword('key1', "keyval")
-            t.putkeyword('keyrec', {'skey1': 1, 'skey2': 3.})
-            self.assertTrue(t._["keyrec"]['skey1'], 1)
-            self.assertEqual(t.getkeyword('key1'), 'keyval')
-            self.assertIn('key1', t.keywordnames())
-            self.assertIn('keyrec', t.keywordnames())
-            key1 = t.keywordnames()
-            key2 = t.fieldnames()
-            self.assertEqual(key1, key2)
-            self.assertIn('skey1', t.fieldnames('keyrec'))
-            self.assertIn('skey2', t.fieldnames('keyrec'))
-            t.putcolkeyword('coli', 'keycoli', {'colskey': 1, 'colskey2': 3.})
-            self.assertEqual(t.getcolkeywords('coli')['keycoli']['colskey2'], 3)
-            #__getattr__
-            tc = t.coli
-            self.assertEqual(tc[0], 0)
-            self.assertEqual(t.key1, 'keyval')
-            self.assertRaises(AttributeError, lambda: t.key2)
-            t.removekeyword('key1')
-            self.assertNotIn('key1', t.getcolkeywords('coli'))
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(2)
+        t.putkeyword('key1', "keyval")
+        t.putkeyword('keyrec', {'skey1': 1, 'skey2': 3.})
+        self.assertTrue(t._["keyrec"]['skey1'], 1)
+        self.assertEqual(t.getkeyword('key1'), 'keyval')
+        self.assertIn('key1', t.keywordnames())
+        self.assertIn('keyrec', t.keywordnames())
+        key1 = t.keywordnames()
+        key2 = t.fieldnames()
+        self.assertEqual(key1, key2)
+        self.assertIn('skey1', t.fieldnames('keyrec'))
+        self.assertIn('skey2', t.fieldnames('keyrec'))
+        t.putcolkeyword('coli', 'keycoli', {'colskey': 1, 'colskey2': 3.})
+        self.assertEqual(t.getcolkeywords('coli')['keycoli']['colskey2'], 3)
+        #__getattr__
+        tc = t.coli
+        self.assertEqual(tc[0], 0)
+        self.assertEqual(t.key1, 'keyval')
+        self.assertRaises(AttributeError, lambda: t.key2)
+        t.removekeyword('key1')
+        self.assertNotIn('key1', t.getcolkeywords('coli'))
 
-            # Print table row
-            tr = t.row(['coli', 'cold'])
-            self.assertEqual(tr[0]['coli'], 0)
-            # Update a few fields in the row
-            tr[0] = {'coli': 10, 'cold': 14}
-            self.assertEqual(tr[0]['coli'], 10)
+        # Print table row
+        tr = t.row(['coli', 'cold'])
+        self.assertEqual(tr[0]['coli'], 0)
+        # Update a few fields in the row
+        tr[0] = {'coli': 10, 'cold': 14}
+        self.assertEqual(tr[0]['coli'], 10)
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Some TaQL calculations
@@ -271,12 +282,13 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(2)
-            numpy.testing.assert_array_almost_equal(
-                t.calc("(1 km)cm"), numpy.array([100000.]))
-            numpy.testing.assert_array_equal(t.calc("coli+1"), numpy.array([1, 1]))
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(2)
+        numpy.testing.assert_array_almost_equal(
+            t.calc("(1 km)cm"), numpy.array([100000.]))
+        numpy.testing.assert_array_equal(t.calc("coli+1"), numpy.array([1, 1]))
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Add some more data.
@@ -287,12 +299,13 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(22)
-            for i in range(2, 22):
-                t.putcell('coli', i, i / 2)
-            print(t[10])
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(22)
+        for i in range(2, 22):
+            t.putcell('coli', i, i / 2)
+        print(t[10])
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Table column
@@ -303,37 +316,38 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(20)
-            with tablecolumn(t, 'coli') as tc:
-                tc[6] += 20
-                self.assertEqual(tc[6], 20)
-                self.assertIn(20, tc[18:4:-2])
-                self.assertEqual(tc[0:][6], 20)
-                self.assertEqual(tc.datatype(), 'int')
-                self.assertEqual(tc.name(), 'coli')
-                print(tc.table())
-                self.assertTrue(tc.isscalar())
-                self.assertFalse(tc.isvar())
-                self.assertEqual(tc.nrows(), 20)
-                self.assertTrue(tc.iscelldefined(2))
-                self.assertEqual(tc.getcell(3), 0)
-                print(tc._)
-                self.assertEqual(tc.getcol(2, 15)[4], 20)
-                tc.putkeyword('key1', "keyval")
-                self.assertIn('key1', tc.keywordnames())
-                self.assertIn('key1', tc.fieldnames())
-                self.assertEqual(tc.getdesc()['dataManagerType'], 'StandardStMan')
-                self.assertEqual(tc.getdminfo()['TYPE'], 'StandardStMan')
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(20)
+        with tablecolumn(t, 'coli') as tc:
+            tc[6] += 20
+            self.assertEqual(tc[6], 20)
+            self.assertIn(20, tc[18:4:-2])
+            self.assertEqual(tc[0:][6], 20)
+            self.assertEqual(tc.datatype(), 'int')
+            self.assertEqual(tc.name(), 'coli')
+            print(tc.table())
+            self.assertTrue(tc.isscalar())
+            self.assertFalse(tc.isvar())
+            self.assertEqual(tc.nrows(), 20)
+            self.assertTrue(tc.iscelldefined(2))
+            self.assertEqual(tc.getcell(3), 0)
+            print(tc._)
+            self.assertEqual(tc.getcol(2, 15)[4], 20)
+            tc.putkeyword('key1', "keyval")
+            self.assertIn('key1', tc.keywordnames())
+            self.assertIn('key1', tc.fieldnames())
+            self.assertEqual(tc.getdesc()['dataManagerType'], 'StandardStMan')
+            self.assertEqual(tc.getdminfo()['TYPE'], 'StandardStMan')
 
-                for iter_ in tc.iter(sort=False):
-                    print(iter_[0]['coli'])
-                self.assertEqual(len(tc), 20)
-                self.assertEqual(tc.getkeywords()['key1'], 'keyval')
-                numpy.testing.assert_equal(tc.getvarcol()['r1'], 0)
-                tc.putcell(2, 55)
-                self.assertEqual(tc[2], 55)
+            for iter_ in tc.iter(sort=False):
+                print(iter_[0]['coli'])
+            self.assertEqual(len(tc), 20)
+            self.assertEqual(tc.getkeywords()['key1'], 'keyval')
+            numpy.testing.assert_equal(tc.getvarcol()['r1'], 0)
+            tc.putcell(2, 55)
+            self.assertEqual(tc[2], 55)
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Delete some columns.
@@ -344,11 +358,12 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            a = ['colarr', 'cols', 'colb', 'colc']
-            t.removecols(a)
-            self.assertNotIn(a, t.colnames())
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        a = ['colarr', 'cols', 'colb', 'colc']
+        t.removecols(a)
+        self.assertNotIn(a, t.colnames())
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # table row
@@ -359,16 +374,17 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(20)
-            with tablerow(t, 'colarr') as tr:
-                self.assertEqual(len(tr), 20)
-                print(tr[0])
-                print(tr[:5])
-                tr[1] = tr[0]
-                tr[0] = {"key": "value"}
-                self.assertTrue(tr.iswritable())
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(20)
+        with tablerow(t, 'colarr') as tr:
+            self.assertEqual(len(tr), 20)
+            print(tr[0])
+            print(tr[:5])
+            tr[1] = tr[0]
+            tr[0] = {"key": "value"}
+            self.assertTrue(tr.iswritable())
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # subtables
@@ -379,11 +395,12 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            sub = table("sub", maketabdesc((c1, c2, c3)))
-            t.putkeyword("subtablename", sub, makesubrecord=True)
-            print(t.getsubtables())
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                    c6)), ack=False)
+        sub = table("sub", maketabdesc((c1, c2, c3)))
+        t.putkeyword("subtablename", sub, makesubrecord=True)
+        print(t.getsubtables())
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     # Table index
@@ -394,17 +411,18 @@ class TestTable(unittest.TestCase):
         c4 = makescacoldesc("colb", True)
         c5 = makescacoldesc("colc", 0. + 0j)
         c6 = makearrcoldesc("colarr", 0.)
-        with table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
-                                                      c6)), ack=False) as t:
-            t.addrows(20)
-            ti = t.index('coli')
-            self.assertFalse(ti.isunique())
-            self.assertIn('coli', ti.colnames())
-            print(ti.rownrs(23))
-            print(ti.rownrs(20))
-            print(ti.rownrs(2))
-            print(ti.rownrs(2, 7))                   # include borders
-            print(ti.rownrs(2, 7, False, False))     # exclude borders
+        t = table("ttable.py_tmp.tab1", maketabdesc((c1, c2, c3, c4, c5,
+                                                     c6)), ack=False)
+        t.addrows(20)
+        ti = t.index('coli')
+        self.assertFalse(ti.isunique())
+        self.assertIn('coli', ti.colnames())
+        print(ti.rownrs(23))
+        print(ti.rownrs(20))
+        print(ti.rownrs(2))
+        print(ti.rownrs(2, 7))                   # include borders
+        print(ti.rownrs(2, 7, False, False))     # exclude borders
+        t.close()
         tabledelete("ttable.py_tmp.tab1")
 
     def test_msutil(self):
