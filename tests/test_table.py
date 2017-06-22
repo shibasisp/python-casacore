@@ -1,10 +1,11 @@
 import unittest2 as unittest
 from casacore.tables import *
 import numpy
+import collections
 
 # Make some columns (5 scalars and an array)
 
-
+compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
 
 class TestTable(unittest.TestCase):
 
@@ -23,8 +24,8 @@ class TestTable(unittest.TestCase):
         self.assertTrue(tableiswritable("ttable.py_tmp.tab1"))
         self.assertEqual(t.nrows(), 0)
         self.assertEqual(t.ncols(), 6)
-        self.assertEqual(t.colnames(), ['cols', 'colc', 'coli', 'cold',
-                                        'colb', 'colarr'])
+        self.assertTrue(compare(t.colnames(), ['cols', 'colc', 'coli',
+                                               'cold', 'colb', 'colarr']))
         self.assertEqual(tableinfo("ttable.py_tmp.tab1"),
                          {'readme': '', 'subType': '', 'type': ''})
         t.addreadmeline("test table run")
