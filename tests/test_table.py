@@ -1,17 +1,20 @@
+"""Tests for tables module."""
 import unittest2 as unittest
 from casacore.tables import *
 import numpy
 import collections
 
-# Make some columns (5 scalars and an array)
 
-compare = lambda x, y: collections.Counter(x) == collections.Counter(y)
+def compare(x, y):
+    """Unordered list compare."""
+    return collections.Counter(x) == collections.Counter(y)
+
 
 class TestTable(unittest.TestCase):
-
-    # Test table info
+    """Main TestTable class."""
 
     def test_tableinfo(self):
+        """Test table info."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -40,8 +43,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # ASCII table
     def test_tableascii(self):
+        """Testing ASCII table."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -62,8 +65,8 @@ class TestTable(unittest.TestCase):
         tabledelete('tablefromascii')
         tabledelete("ttable.py_tmp.tab1")
 
-    # checking datatypes
     def test_check_datatypes(self):
+        """Checking datatypes."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -81,8 +84,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Add rows and put data
     def test_check_putdata(self):
+        """Add rows and put data."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -106,9 +109,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Add columns
-
     def test_addcolumns(self):
+        """Add columns."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -128,8 +130,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # iter
     def test_iter(self):
+        """Testing tableiter."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -144,8 +146,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # copy and rename
     def test_copyandrename(self):
+        """Copy and rename tables."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -168,8 +170,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Create a subset
     def test_subset(self):
+        """Create a subset."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -187,8 +189,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Add some columns
     def test_adddmcolumns(self):
+        """Add some columns."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -234,8 +236,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Do keyword handling
     def test_keywords(self):
+        """Do keyword handling."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -258,7 +260,7 @@ class TestTable(unittest.TestCase):
         self.assertIn('skey2', t.fieldnames('keyrec'))
         t.putcolkeyword('coli', 'keycoli', {'colskey': 1, 'colskey2': 3.})
         self.assertEqual(t.getcolkeywords('coli')['keycoli']['colskey2'], 3)
-        #__getattr__
+        # getattr
         tc = t.coli
         self.assertEqual(tc[0], 0)
         self.assertEqual(t.key1, 'keyval')
@@ -275,8 +277,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Some TaQL calculations
     def test_taqlcalc(self):
+        """Some TaQL calculations."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -292,8 +294,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Add some more data.
     def test_adddata(self):
+        """Add some more data."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -309,8 +311,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Table column
     def test_tablecolumn(self):
+        """Table column."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -351,8 +353,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Delete some columns.
     def test_deletecols(self):
+        """Delete some columns."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -367,8 +369,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # table row
     def test_tablerow(self):
+        """Testing table row."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -388,8 +390,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # subtables
     def test_subtables(self):
+        """Testing subtables."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -404,8 +406,8 @@ class TestTable(unittest.TestCase):
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
-    # Table index
     def test_tableindex(self):
+        """Testing table index."""
         c1 = makescacoldesc("coli", 0)
         c2 = makescacoldesc("cold", 0.)
         c3 = makescacoldesc("cols", "")
@@ -427,6 +429,7 @@ class TestTable(unittest.TestCase):
         tabledelete("ttable.py_tmp.tab1")
 
     def test_msutil(self):
+        """Testing msutil."""
         datacoldesc = makearrcoldesc("DATA", 0., ndim=2, shape=[20, 4])
         ms = default_ms("tabtemp", maketabdesc((datacoldesc)))
         ms.close()
@@ -478,17 +481,20 @@ class TestTable(unittest.TestCase):
         self.assertNotIn('HA', t.colnames())
         self.assertNotIn('HA', t.colnames())
 
-        taql("SELECT FROM tabtemp where TIME in (SELECT DISTINCT TIME FROM tabtemp LIMIT 10) GIVING first10.MS AS PLAIN")
-        taql("SELECT FROM tabtemp where TIME in (SELECT DISTINCT TIME FROM tabtemp LIMIT 10 OFFSET 10) GIVING second10.MS AS PLAIN")
+        taql("SELECT FROM tabtemp where TIME in (SELECT DISTINCT TIME" +
+             " FROM tabtemp LIMIT 10) GIVING first10.MS AS PLAIN")
+        taql("SELECT FROM tabtemp where TIME in (SELECT DISTINCT TIME" +
+             " FROM tabtemp LIMIT 10 OFFSET 10) GIVING second10.MS AS PLAIN")
         msconcat(["first10.MS", "second10.MS"], "combined.MS", concatTime=True)
         spw.close()
         t.close()
         tabledelete("tabtemp")
 
-        #TODO
-        #msconcat with concatTime=False
-        #msregularize
+        # TODO
+        # msconcat with concatTime=False
+        # msregularize
     def test_hypercolumn(self):
+        """Test hypercolumns."""
         scd1 = makescacoldesc("col2", "aa")
         scd2 = makescacoldesc("col1", 1, "IncrementalStMan")
         scd3 = makescacoldesc("colrec1", {})
@@ -501,19 +507,20 @@ class TestTable(unittest.TestCase):
         tabledelete("mytable")
 
     def test_required_desc(self):
-        #=============================================
+        """Testing required_desc."""
+        # =============================================
         # TEST 1
         # Create a default Measurement Set
-        #=============================================
+        # =============================================
         with default_ms("ttable.py_tmp.ms1") as ms1:
             pass
 
-        #=============================================
+        # =============================================
         # TEST 2
         # Create a MS with a modified UVW column,
         # an additional MODEL_DATA column, as well as
         # specs for the column data managers
-        #=============================================
+        # =============================================
 
         # Get the required description for an MS
         ms2_desc = required_ms_desc("MAIN")
@@ -528,8 +535,10 @@ class TestTable(unittest.TestCase):
         # Create an array column description
         # as well as a data manager group spec
         model_data_desc = makearrcoldesc("MODEL_DATA", 0.0,
-                                         options=4, valuetype="complex",
-                                         shape=[16, 4], ndim=2,
+                                         options=4,
+                                         valuetype="complex",
+                                         shape=[16, 4],
+                                         ndim=2,
                                          datamanagertype="TiledColumnStMan",
                                          datamanagergroup="DataGroup")
         dmgroup_spec.update({
@@ -580,10 +589,10 @@ class TestTable(unittest.TestCase):
             self.assertTrue(np.all(dminfo["SPEC"]["HYPERCUBES"][
                             "*1"]["TileShape"] == [4, 16, 32]))
 
-        #=============================================
+        # =============================================
         # TEST 3
         # Test subtable creation
-        #=============================================
+        # =============================================
         subtables = ("ANTENNA", "DATA_DESCRIPTION", "DOPPLER",
                      "FEED", "FIELD", "FLAG_CMD", "FREQ_OFFSET",
                      "HISTORY", "OBSERVATION", "POINTING", "POLARIZATION",
@@ -599,7 +608,9 @@ class TestTable(unittest.TestCase):
             # Rather
             model_data_desc = makearrcoldesc("MODEL_DATA", 0.0,
                                              options=4,
-                                             valuetype="complex", shape=[16, 4], ndim=2,
+                                             valuetype="complex",
+                                             shape=[16, 4],
+                                             ndim=2,
                                              datamanagertype="TiledColumnStMan",
                                              datamanagergroup="DataGroup")
             dmgroup_spec = {"DataGroup": {"DEFAULTTILESHAPE": [4, 16, 32]}}
