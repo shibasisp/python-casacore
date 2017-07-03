@@ -143,6 +143,7 @@ class TestTable(unittest.TestCase):
         t.addrows(2)
         for iter_ in t.iter('coli', sort=False):
             print(iter_.getcol('coli'), iter_.rownumbers(t))
+        iter_.close()
         t.close()
         tabledelete("ttable.py_tmp.tab1")
 
