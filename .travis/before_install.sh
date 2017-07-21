@@ -9,7 +9,6 @@ if [ "$TRAVIS_OS_NAME" = linux ]; then
     MINICONDAVERSION="Linux"
 else
 	brew update
-	brew install python
     MINICONDAVERSION="MacOSX"
 fi
 
