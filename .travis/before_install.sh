@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 # Inspired by https://conda.io/docs/travis.html
+env
+
 set -e
 set -v
 
@@ -39,7 +41,7 @@ conda update -q conda
 conda config --add channels conda-forge
 # Useful for debugging any issues with conda
 conda info -a
-
+which python
 conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0
 
 echo "measures.directory: /home/travis/data" > $HOME/.casarc
