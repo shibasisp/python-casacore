@@ -2,47 +2,41 @@ language: python
 
 dist: trusty
 
-python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
-
 matrix:
     include:
         # Use the built in venv for linux builds
         - os: linux
           sudo: required
-          # python: "2.7"
-          
+          python: "2.7"
+          env: TOXENV=py27
 
         - os: linux
           sudo: required
-          # python: "3.5"
+          python: "3.5"
+          env: TOXENV=py35
 
         - os: linux
           sudo: required
-          # python: "3.6"
+          python: "3.6"
+          env: TOXENV=py36
 
         # Use generic language for osx
         - os: osx
           language: generic
-          # python: "2.7"
+          python: "2.7"
           env: TOXENV=py27
 
         - os: osx
           language: generic
-          # python: "3.5"
+          python: "3.5"
           env: TOXENV=py35
 
         - os: osx
           language: generic
-          # python: "3.6"
+          python: "3.6"
           env: TOXENV=py36
 
-addons:
-  apt:
-    packages:
-      - python-virtualenv
+
 
 before_install:
  - .travis/before_install.sh
