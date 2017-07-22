@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 
 # Inspired by https://conda.io/docs/travis.html
+env
+
 set -e
 set -v
 
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-	if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-  		brew install python;
-  		virtualenv venv -p python;
-  		source venv/bin/activate;
-	else
-  		brew install python3;
-  		virtualenv venv -p python3;
-  		source venv/bin/activate;
-  	fi
-fi
+# if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+# if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+# 	if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+#   		brew install python;
+#   		virtualenv venv -p python;
+#   		source venv/bin/activate;
+# 	else
+#   		brew install python3;
+#   		virtualenv venv -p python3;
+#   		source venv/bin/activate;
+#   	fi
+# fi
 
 
 if [ "$TRAVIS_OS_NAME" = linux ]; then
