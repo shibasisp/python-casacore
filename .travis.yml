@@ -1,13 +1,25 @@
-language: generic
-sudo: required
-dist: trusty
-python:
- - 2.7
- - 3.5
- - 3.6
-os:
- - linux
- - osx
+language: python
+matrix:
+    include:
+        # Use the built in venv for linux builds
+        - os: linux
+          sudo: required
+          python: 2.7
+          dist: trusty
+
+        - os: linux
+          sudo: required
+          python: 3.5
+          dist: trusty
+
+        - os: linux
+          sudo: required
+          python: 3.6
+          dist: trusty
+          
+        # Use generic language for osx
+        - os: osx
+          language: generic
 
 before_install:
  - .travis/before_install.sh
