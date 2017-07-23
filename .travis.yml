@@ -38,13 +38,13 @@ matrix:
 
 
 before_install:
+ - .travis/install.sh
  - .travis/before_install.sh
  - mkdir $HOME/data
  - echo $PWD
  - cd $HOME/data && wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar && tar xf WSRT_Measures.ztar && cd -
  - echo $PWD
 install:
- - .travis/install.sh
  - export PATH="$HOME/miniconda/bin:$PATH"
  - source activate testenv
  - export CPATH="$HOME/miniconda/envs/testenv/include:$CPATH"
