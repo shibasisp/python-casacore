@@ -38,7 +38,6 @@ matrix:
 
 
 before_install:
- - .travis/install.sh
  - .travis/before_install.sh
  - mkdir $HOME/data
  - echo $PWD
