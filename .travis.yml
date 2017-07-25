@@ -41,7 +41,9 @@ before_install:
  - cd $HOME/data
  - pwd
  - wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar
+ - ls
  - tar xf WSRT_Measures.ztar
+ - ls
  - pwd
  - cat ~/.casarc
  - ls /home/travis/data
