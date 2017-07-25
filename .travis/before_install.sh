@@ -30,4 +30,4 @@ conda info -a
 which python
 conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0
 
-echo "measures.directory: /home/travis/data" > $HOME/.casarc
+echo "measures.directory: $HOME/data" > $HOME/.casarc
