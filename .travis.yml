@@ -40,6 +40,8 @@ before_install:
  - echo $PWD
  - cd $HOME/data && wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar && tar xf WSRT_Measures.ztar && cd -
  - echo $PWD
+ - cat ~/.casarc
+ - ls /home/travis/data
 install:
  - export PATH="$HOME/miniconda/bin:$PATH"
  - source activate testenv
@@ -61,4 +63,3 @@ deploy:
   repo: casacore/python-casacore
 after_success:
   coveralls
-
