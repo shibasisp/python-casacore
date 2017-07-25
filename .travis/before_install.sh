@@ -9,7 +9,6 @@ if [ "$TRAVIS_OS_NAME" = linux ]; then
     sudo apt-get update
     MINICONDAVERSION="Linux"
 else
-    brew install wget --with-libressl
     MINICONDAVERSION="MacOSX"
 fi
 

@@ -46,7 +46,6 @@ before_install:
  - ls
  - pwd
  - cat ~/.casarc
- - ls /home/travis/data
 install:
  - cd $TRAVIS_BUILD_DIR
  - export PATH="$HOME/miniconda/bin:$PATH"
