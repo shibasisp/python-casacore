@@ -37,9 +37,9 @@ matrix:
 before_install:
  - .travis/before_install.sh
  - mkdir $HOME/data
- - echo $PWD
+ - pwd
  - cd $HOME/data && wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar && tar xf WSRT_Measures.ztar && cd -
- - echo $PWD
+ - pwd
  - cat ~/.casarc
  - ls /home/travis/data
 install:
