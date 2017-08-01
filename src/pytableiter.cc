@@ -29,6 +29,8 @@
 #include <casacore/tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
+
+#include<pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
@@ -38,8 +40,8 @@ namespace casacore { namespace python {
 
   void pytableiter()
   {
-    class_<TableIterProxy> ("TableIter",
-	    init<TableProxy, Vector<String>, String, String>())
+    boost::python::class_<TableIterProxy> ("TableIter",
+	    boost::python::init<TableProxy, Vector<String>, String, String>())
 
       .def ("_reset", &TableIterProxy::reset)
       .def ("_next", &TableIterProxy::next)

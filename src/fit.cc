@@ -27,6 +27,7 @@
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
+#include <pybind11/pybind11.h>
 
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
@@ -38,8 +39,8 @@ namespace py = pybind11;
 namespace casacore { namespace python {
   void fit()
   {
-    class_<FittingProxy> ("fitting")
-      .def (init<>())
+    boost::python::class_<FittingProxy> ("fitting")
+      .def (boost::python::init<>())
       .def ("getid", &FittingProxy::getid)
       .def ("getstate", &FittingProxy::getstate)
       .def ("init", &FittingProxy::init)

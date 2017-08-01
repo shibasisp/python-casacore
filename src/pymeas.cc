@@ -25,6 +25,7 @@
 //#
 //# $Id: pymeas.cc,v 1.1 2006/09/28 05:55:00 mmarquar Exp $
 
+#include<pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 #include <casacore/measures/Measures/MeasuresProxy.h>
@@ -36,8 +37,8 @@ namespace py = pybind11;
 namespace casacore { namespace python {
   void pymeas()
   {
-    class_<MeasuresProxy> ("measures")
-      .def (init<>())
+    boost::python::class_<MeasuresProxy> ("measures")
+      .def (boost::python::init<>())
       .def ("measure", &MeasuresProxy::measure)
       .def ("dirshow", &MeasuresProxy::dirshow)
       .def ("doframe", &MeasuresProxy::doframe)

@@ -29,6 +29,8 @@
 #include <casacore/tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
+
+#include<pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
@@ -38,8 +40,8 @@ namespace casacore { namespace python {
 
   void pytablerow()
   {
-    class_<TableRowProxy> ("TableRow",
-	    init<TableProxy, Vector<String>, Bool>())
+    boost::python::class_<TableRowProxy> ("TableRow",
+	    boost::python::init<TableProxy, Vector<String>, Bool>())
 
       .def ("_iswritable", &TableRowProxy::isWritable)
       .def ("_get", &TableRowProxy::get,

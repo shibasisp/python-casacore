@@ -31,6 +31,7 @@
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
 
+#include<pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
@@ -41,22 +42,22 @@ namespace casacore { namespace python {
   void pytable()
   {
     // Note that all constructors must have a different number of arguments.
-    class_<TableProxy> ("Table",
-            init<>())
+    boost::python::class_<TableProxy> ("Table",
+            boost::python::init<>())
 	    //  1 arg: copy constructor
-      .def (init<TableProxy>())
+      .def (boost::python::init<TableProxy>())
 	    //  2 arg: table query command
-      .def (init<String, std::vector<TableProxy> >())
+      .def (boost::python::init<String, std::vector<TableProxy> >())
 	    //  3 arg: open single table
-      .def (init<String, Record, int>())
+      .def (boost::python::init<String, Record, int>())
 	    //  4 arg: open multiple tables as concatenation
-      .def (init<Vector<String>, Vector<String>, Record, int>())
+      .def (boost::python::init<Vector<String>, Vector<String>, Record, int>())
 	    //  5 arg: concatenate open tables
-      .def (init<std::vector<TableProxy>, Vector<String>, int, int, int>())
+      .def (boost::python::init<std::vector<TableProxy>, Vector<String>, int, int, int>())
 	    //  7 arg: create new table
-      .def (init<String, Record, String, String, int, Record, Record>())
+      .def (boost::python::init<String, Record, String, String, int, Record, Record>())
 	    // 11 arg: read ascii
-      .def (init<String, String, String, Bool, IPosition, String, String ,int, int, Vector<String>, Vector<String> >())
+      .def (boost::python::init<String, String, String, Bool, IPosition, String, String ,int, int, Vector<String>, Vector<String> >())
 
       // Member functions
       // Functions starting with an underscore are wrapped in table.py.

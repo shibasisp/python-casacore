@@ -27,6 +27,8 @@
 
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
+#include<pybind11/pybind11.h>
+
 #include <casacore/scimath/Functionals/FunctionalProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
@@ -38,8 +40,8 @@ namespace casacore { namespace python {
 
   void functional()
   {
-    class_<FunctionalProxy> ("_functional")
-    .def ( init< const Record&, int>())
+    boost::python::class_<FunctionalProxy> ("_functional")
+    .def ( boost::python::init< const Record&, int>())
       .def ("_f", &FunctionalProxy::f)
       .def ("_fc", &FunctionalProxy::fc)
       .def ("_fdf", &FunctionalProxy::fdf)

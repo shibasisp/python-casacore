@@ -29,6 +29,8 @@
 #include <casacore/tables/Tables/TableProxy.h>
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
+
+#include<pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
@@ -38,8 +40,8 @@ namespace casacore { namespace python {
 
   void pytableindex()
   {
-    class_<TableIndexProxy> ("TableIndex",
-	    init<TableProxy, Vector<String>, Bool>())
+    boost::python::class_<TableIndexProxy> ("TableIndex",
+	    boost::python::init<TableProxy, Vector<String>, Bool>())
 
       .def ("_isunique", &TableIndexProxy::isUnique)
       .def ("_colnames", &TableIndexProxy::columnNames)

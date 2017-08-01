@@ -31,6 +31,7 @@
 #include <casacore/python/Converters/PycRecord.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
+#include<pybind11/pybind11.h>
 
 namespace py = pybind11;
 
@@ -39,20 +40,20 @@ namespace casacore { namespace python {
   void pyimages()
   {
     // Note that all constructors must have a different number of arguments.
-    class_<ImageProxy> ("Image")
+    boost::python::class_<ImageProxy> ("Image")
             // 1 arg: copy constructor
-      .def (init<ImageProxy>())
+      .def (boost::python::init<ImageProxy>())
 	    // 2 arg: concat from image names
-      .def (init<Vector<String>, Int>())
+      .def (boost::python::init<Vector<String>, Int>())
             // 3 arg: open image or image expression
-      .def (init<String, String, vector<ImageProxy> >())
+      .def (boost::python::init<String, String, vector<ImageProxy> >())
 	    // 4 arg: concat from images objects
-      .def (init<std::vector<ImageProxy>, Int, Int, Int>())
+      .def (boost::python::init<std::vector<ImageProxy>, Int, Int, Int>())
             // 8 arg: create image from array
-      .def (init<ValueHolder, ValueHolder, Record, String, Bool, Bool,
+      .def (boost::python::init<ValueHolder, ValueHolder, Record, String, Bool, Bool,
             String, IPosition>())
             // 9 arg: create image from shape
-      .def (init<IPosition, ValueHolder, Record, String, Bool, Bool,
+      .def (boost::python::init<IPosition, ValueHolder, Record, String, Bool, Bool,
             String, IPosition, Int>())
 
       // Member functions.

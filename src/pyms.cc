@@ -4,6 +4,7 @@
 #include <casacore/python/Converters/PycValueHolder.h>
 #include <casacore/python/Converters/PycRecord.h>
 
+#include<pybind11/pybind11.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
@@ -251,13 +252,13 @@ namespace python {
 
   void pyms()
   {
-    def("_default_ms", &default_ms, (
+    boost::python::def("_default_ms", &default_ms, (
       boost::python::arg("name"),
       boost::python::arg("table_desc")));
-    def("_default_ms_subtable", &default_ms_subtable, (
+    boost::python::def("_default_ms_subtable", &default_ms_subtable, (
       boost::python::arg("subtable"),
       boost::python::arg("table_desc")));
-    def("_required_ms_desc", &required_ms_desc, (
+    boost::python::def("_required_ms_desc", &required_ms_desc, (
       boost::python::arg("table")));
   }
 
