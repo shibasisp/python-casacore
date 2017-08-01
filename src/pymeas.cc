@@ -31,7 +31,7 @@
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 
-using namespace boost::python;
+namespace py = pybind11;
 
 namespace casacore { namespace python {
   void pymeas()
@@ -41,10 +41,10 @@ namespace casacore { namespace python {
       .def ("measure", &MeasuresProxy::measure)
       .def ("dirshow", &MeasuresProxy::dirshow)
       .def ("doframe", &MeasuresProxy::doframe)
-      .def ("linelist", &MeasuresProxy::linelist)      
+      .def ("linelist", &MeasuresProxy::linelist)
       .def ("obslist", &MeasuresProxy::obslist)
       .def ("source", &MeasuresProxy::source)
-      .def ("line", &MeasuresProxy::line)      
+      .def ("line", &MeasuresProxy::line)
       .def ("observatory", &MeasuresProxy::observatory)
       .def ("srclist", &MeasuresProxy::srclist)
       .def ("doptofreq", &MeasuresProxy::doptofreq)

@@ -32,7 +32,7 @@
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
-using namespace boost::python;
+namespace py = pybind11;
 
 namespace casacore { namespace python {
 
@@ -57,7 +57,7 @@ namespace casacore { namespace python {
 
       // Member functions.
       // Functions starting with un underscore are wrapped in image.py.
-      .def ("_ispersistent", &ImageProxy::isPersistent) 
+      .def ("_ispersistent", &ImageProxy::isPersistent)
       .def ("_name", &ImageProxy::name,
             (boost::python::arg("strippath")))
       .def ("_shape", &ImageProxy::shape)
@@ -135,7 +135,7 @@ namespace casacore { namespace python {
              boost::python::arg("newtileshape")))
       .def ("_statistics", &ImageProxy::statistics,
             (boost::python::arg("axes"),
-             boost::python::arg("mask"), 
+             boost::python::arg("mask"),
              boost::python::arg("minMaxValues"),
              boost::python::arg("exclude"),
              boost::python::arg("robust")))

@@ -31,11 +31,11 @@
 #include <casacore/python/Converters/PycBasicData.h>
 #include <casacore/python/Converters/PycRecord.h>
 
-using namespace boost::python;
+namespace py = pybind11;
 
 namespace casacore { namespace python {
 
-  
+
   void functional()
   {
     class_<FunctionalProxy> ("_functional")

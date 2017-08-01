@@ -39,7 +39,7 @@
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
-using namespace boost::python;
+namespace py = pybind11;
 
 namespace casacore {
   namespace python {
@@ -122,7 +122,7 @@ namespace casacore {
       }
       return QProxy(outvals, outu);
     }
-    
+
   }
 
 
@@ -139,7 +139,7 @@ namespace casacore {
     ostringstream oss;
     VD val = q.get().getValue();
     size_t n = val.nelements();
-    Unit u = q.get().getUnit(); 
+    Unit u = q.get().getUnit();
     oss << "[";
     for (size_t i=0; i < n; ++i) {
       MVTime mvt(Quantity(val[i], u));
@@ -155,12 +155,12 @@ namespace casacore {
     oss << "]";
     return String(oss);
   }
-  
+
   String printAngle(const QProxy& q, const String& fmt) {
     ostringstream oss;
     VD val = q.get().getValue();
     size_t n = val.nelements();
-    Unit u = q.get().getUnit(); 
+    Unit u = q.get().getUnit();
     oss << "[";
     for (size_t i=0; i < n; ++i) {
       MVAngle mva(Quantity(val[i], u));
@@ -176,12 +176,12 @@ namespace casacore {
     oss << "]";
     return String(oss);
   }
-  
+
   String qpprintQuantum(const QProxy& q,  const String& fmt) {
     if (q.get().getFullUnit() == Unit("s")) {
       return printTime(q, fmt);
       } else if  (q.get().getFullUnit() == Unit("rad")) {
-      return printAngle(q, fmt);      
+      return printAngle(q, fmt);
     }
     ostringstream oss;
     q.print(oss);
@@ -211,7 +211,7 @@ namespace casacore { namespace python {
       .def ("set_value", &QProxy::setValue)
       .def ("get", (QProxy ( QProxy::* )( ) const)(&QProxy::get))
       .def ("canonical", (QProxy ( QProxy::* )( ) const)(&QProxy::get))
-      .def ("get", 
+      .def ("get",
 	    (QProxy ( QProxy::* )( const QProxy& ) const)(&QProxy::get))
       .def ("get", &qpgetWithUnit)
       .def ("conforms", &qpconforms)
@@ -250,7 +250,7 @@ namespace casacore { namespace python {
       .def (self != VD())
       .def (VD() != self)
 
-      
+
       .def (self < self)
       .def (self < VD())
       .def (VD() < self)
@@ -267,6 +267,6 @@ namespace casacore { namespace python {
       .def ("formatted", &qpprintQuantum)
       ;
     def ("from_dict_v", &qpfromRecord);
-      
+
   }
 }}

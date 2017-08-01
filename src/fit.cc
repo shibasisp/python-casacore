@@ -33,7 +33,7 @@
 
 #include <casacore/scimath/Fitting/FittingProxy.h>
 
-using namespace boost::python;
+namespace py = pybind11;
 
 namespace casacore { namespace python {
   void fit()

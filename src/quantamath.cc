@@ -32,9 +32,9 @@
 
 #include <boost/python.hpp>
 
-using namespace boost::python;
+namespace py = pybind11;
 
-namespace casacore { 
+namespace casacore {
   namespace python {
 
     dict constants() {
@@ -100,8 +100,8 @@ namespace casacore {
     }
 
 
-    typedef Quantum<Vector<Double> > QProxy; 
-    typedef Vector<Double> VD; 
+    typedef Quantum<Vector<Double> > QProxy;
+    typedef Vector<Double> VD;
     void quantamath()
     {
       // misc
@@ -124,14 +124,14 @@ namespace casacore {
 				Double ) )(&near));
       def ("near", (Bool ( * )( const QProxy&, const VD&,
 				Double ) )(&near));
-      
+
       def ("abs", (QProxy ( * )( const QProxy&) )(&abs));
       def ("pow", (QProxy ( * )( const QProxy&, Int) )(&pow));
       def ("root", (QProxy ( * )( const QProxy&, Int) )(&root));
       def ("sqrt", (QProxy ( * )( const QProxy&) )(&sqrt));
       def ("ceil", (QProxy ( * )( const QProxy&) )(&ceil));
       def ("floor", (QProxy ( * )( const QProxy&) )(&floor));
-      
+
       def ("sin", (QProxy ( * )( const QProxy&) )(&sin));
       def ("cos", (QProxy ( * )( const QProxy&) )(&cos));
       def ("tan", (QProxy ( * )( const QProxy&) )(&tan));
@@ -141,15 +141,15 @@ namespace casacore {
       def ("atan2", (QProxy ( * )( const QProxy&, const QProxy&) )(&atan2));
       def ("atan2", (QProxy ( * )( const QProxy&, const VD&) )(&atan2));
       def ("atan2", (QProxy ( * )( const VD&, const QProxy&) )(&atan2));
-      
+
       def ("log", (QProxy ( * )( const QProxy&) )(&log));
       def ("log10", (QProxy ( * )( const QProxy&) )(&log10));
-      def ("exp", (QProxy ( * )( const QProxy&) )(&exp));      
+      def ("exp", (QProxy ( * )( const QProxy&) )(&exp));
 
 
       // Quantity functions
 
-      def ("nearabs", (Bool ( * )( const Quantity&, 
+      def ("nearabs", (Bool ( * )( const Quantity&,
 				   const Quantity&) )(&nearAbs));
       def ("nearabs", (Bool ( * )( const Quantity&, const Quantity&,
 				   Double ) )(&nearAbs));
@@ -158,36 +158,36 @@ namespace casacore {
       def ("nearabs", (Bool ( * )( const Quantity&, const Double&,
 				   Double ) )(&nearAbs));
       def ("near", (Bool ( * )( const Quantity&, const Quantity&) )(&near));
-      
+
       def ("near", (Bool ( * )( const Quantity&, const Quantity&,
 				Double ) )(&near));
       def ("near", (Bool ( * )( const Double&, const Quantity&,
 				Double ) )(&near));
       def ("near", (Bool ( * )( const Quantity&, const Double&,
 				Double ) )(&near));
-      def ("abs", (Quantity ( * )( const Quantity&) )(&abs));      
+      def ("abs", (Quantity ( * )( const Quantity&) )(&abs));
       def ("pow", (Quantity ( * )( const Quantity&, Int) )(&pow));
       def ("root", (Quantity ( * )( const Quantity&, Int) )(&root));
       def ("sqrt", (Quantity ( * )( const Quantity&) )(&sqrt));
       def ("ceil", (Quantity ( * )( const Quantity&) )(&ceil));
       def ("floor", (Quantity ( * )( const Quantity&) )(&floor));
-      
+
       def ("sin", (Quantity ( * )( const Quantity&) )(&sin));
       def ("cos", (Quantity ( * )( const Quantity&) )(&cos));
       def ("tan", (Quantity ( * )( const Quantity&) )(&tan));
       def ("asin", (Quantity ( * )( const Quantity&) )(&asin));
       def ("acos", (Quantity ( * )( const Quantity&) )(&acos));
       def ("atan", (Quantity ( * )( const Quantity&) )(&atan));
-      def ("atan2", (Quantity ( * )( const Quantity&, 
+      def ("atan2", (Quantity ( * )( const Quantity&,
 				     const Quantity&) )(&atan2));
-      def ("atan2", (Quantity ( * )( const Quantity&, 
+      def ("atan2", (Quantity ( * )( const Quantity&,
 				     const Double&) )(&atan2));
-      def ("atan2", (Quantity ( * )( const Double&, 
+      def ("atan2", (Quantity ( * )( const Double&,
 				     const Quantity&) )(&atan2));
-      
+
       def ("log", (Quantity ( * )( const Quantity&) )(&log));
       def ("log10", (Quantity ( * )( const Quantity&) )(&log10));
-      def ("exp", (Quantity ( * )( const Quantity&) )(&exp));      
+      def ("exp", (Quantity ( * )( const Quantity&) )(&exp));
     }
   }
 }

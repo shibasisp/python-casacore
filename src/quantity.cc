@@ -40,7 +40,7 @@
 #include <boost/python/args.hpp>
 #include <boost/python/overloads.hpp>
 
-using namespace boost::python;
+namespace py = pybind11;
 
 
 namespace casacore {
@@ -54,7 +54,7 @@ namespace casacore {
     }
     return qh.asQuantity();
   }
-   
+
 
   String printTime(const Quantity& q, const String& fmt, uInt prec) {
     MVTime mvt(q);
@@ -76,7 +76,7 @@ namespace casacore {
     if (q.get().getFullUnit() == Unit("s")) {
       return printTime(q, fmt, prec);
     } else if (q.get().getFullUnit() == Unit("rad")) {
-      return printAngle(q, fmt, prec);      
+      return printAngle(q, fmt, prec);
     }
     ostringstream oss;
     q.print(oss);
@@ -125,7 +125,7 @@ namespace casacore {
     } else {
       Quantity q0 = MVTime(q).get();
       return q0;
-    }    
+    }
   }
 
   Quantity toAngle(const Quantity& q) {
@@ -134,9 +134,9 @@ namespace casacore {
     } else {
       Quantity q0 = MVAngle(q).get();
       return q0;
-    }    
+    }
   }
-    
+
     Double toUnixTime(const Quantity& q) {
       // MJD = JD - 2400000.5
       // unix = (JD - 2440587.5) * 86400.0
@@ -223,13 +223,13 @@ namespace casacore { namespace python {
       .def (Double() > self)
       .def (self >= self)
       .def (self >= Double())
-      .def (Double() >= self)     
+      .def (Double() >= self)
       .def ("formatted", &printQuantum, printQuantumOVL((boost::python::arg("q"),
                                                          boost::python::arg("fmt")="",
 							 boost::python::arg("precision")=0)))
       ;
     def ("from_string", &fromString);
     def ("from_dict", &fromRecord);
-      
+
   }
 }}
