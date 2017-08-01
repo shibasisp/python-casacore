@@ -16,6 +16,16 @@ import ctypes
 from casacore import __version__, __mincasacoreversion__
 
 
+def get_pybind_include(user=False):
+    """Helper class to determine the pybind11 include path
+    The purpose of this class is to postpone importing pybind11
+    until it is actually installed, so that the ``get_include()``
+    method can be invoked. """
+
+    import pybind11
+    return pybind11.get_include(user)
+
+
 def find_library_file(libname):
     ''' Try to get the directory of the specified library.
     It adds to the search path the library paths given to distutil's build_ext.
@@ -26,7 +36,7 @@ def find_library_file(libname):
     args, unknown = parser.parse_known_args()
     user_libdirs = args.library_dirs.split(':')
     # Append default search path (not a complete list)
-    libdirs = user_libdirs+[os.path.join(sys.prefix,'lib'),'/usr/local/lib', '/usr/lib','/usr/lib/x86_64-linux-gnu']
+    libdirs = user_libdirs+[os.path.join(sys.prefix, 'lib'), '/usr/local/lib', '/usr/lib','/usr/lib/x86_64-linux-gnu']
     compiler = ccompiler.new_compiler()
     return compiler.find_library_file(libdirs, libname)
 
@@ -44,6 +54,33 @@ if sys.version_info[0] == 2:
     casa_python = 'casa_python'
 else:
     casa_python = 'casa_python3'
+
+
+def has_flag(compiler, flagname):
+    """Return a boolean indicating whether a flag name is supported on
+    the specified compiler.
+    """
+    import tempfile
+    with tempfile.NamedTemporaryFile('w', suffix='.cpp') as f:
+        f.write('int main (int argc, char **argv) { return 0; }')
+        try:
+            compiler.compile([f.name], extra_postargs=[flagname])
+        except setuptools.distutils.errors.CompileError:
+            return False
+    return True
+
+
+def cpp_flag(compiler):
+    """Return the -std=c++[11/14] compiler flag.
+    The c++14 is prefered over c++11 (when it is available).
+    """
+    if has_flag(compiler, '-std=c++14'):
+        return '-std=c++14'
+    elif has_flag(compiler, '-std=c++11'):
+        return '-std=c++11'
+    else:
+        raise RuntimeError('Unsupported compiler -- at least C++11 support '
+                           'is needed!')
 
 
 def find_boost():
@@ -71,13 +108,13 @@ extension_metas = (
         "casacore.fitting._fitting",
         ["src/fit.cc", "src/fitting.cc"],
         ["src/fitting.h"],
-        ['casa_scimath', 'casa_scimath_f', boost_python, casa_python],
+        ['casa_scimath', 'casa_scimath_f', boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)],
     ),
     (
         "casacore.functionals._functionals",
         ["src/functional.cc", "src/functionals.cc"],
         ["src/functionals.h"],
-        ['casa_scimath', 'casa_scimath_f', boost_python, casa_python],
+        ['casa_scimath', 'casa_scimath_f', boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)],
     ),
     (
         "casacore.images._images",
@@ -86,33 +123,33 @@ extension_metas = (
         ['casa_images', 'casa_coordinates',
          'casa_fits', 'casa_lattices', 'casa_measures',
          'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib',
-         boost_python, casa_python]
+         boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)]
     ),
     (
         "casacore.measures._measures",
         ["src/pymeas.cc", "src/pymeasures.cc"],
         ["src/pymeasures.h"],
         ['casa_measures', 'casa_scimath', 'casa_scimath_f', 'casa_tables',
-         boost_python, casa_python]
+         boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)]
     ),
     (
         "casacore.quanta._quanta",
         ["src/quanta.cc", "src/quantamath.cc", "src/quantity.cc",
             "src/quantvec.cc"],
         ["src/quanta.h"],
-        ["casa_casa", boost_python, casa_python],
+        ["casa_casa", boost_python, casa_python,  get_pybind_include(), get_pybind_include(user=True)],
     ),
     (
         "casacore.tables._tables",
         ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
          "src/pytablerow.cc", "src/tables.cc", "src/pyms.cc"],
         ["src/tables.h"],
-        ['casa_tables', 'casa_ms', boost_python, casa_python],
+        ['casa_tables', 'casa_ms', boost_python, casa_python,  get_pybind_include(), get_pybind_include(user=True)],
     )
 )
 
 # Find casacore libpath
-libcasacasa=find_library_file('casa_casa')
+libcasacasa = find_library_file('casa_casa')
 if libcasacasa is None:
     raise Exception("Could not find libcasa_casa.so")
 
@@ -138,9 +175,9 @@ for meta in extension_metas:
     # Add dependency on casacore libraries to trigger rebuild at casacore update
     for library in libraries:
         if 'casa' in library:
-            found_lib=find_library_file(library)
+            found_lib = find_library_file(library)
             if found_lib:
-                depends=depends+[found_lib]
+                depends = depends+[found_lib]
 
     extensions.append(Extension(name=name, sources=sources, depends=depends,
                                 libraries=libraries))
