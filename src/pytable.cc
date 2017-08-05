@@ -39,241 +39,241 @@ namespace py = pybind11;
 
 namespace casacore { namespace python {
 
-  void pytable()
+  void pytable(py::module& m)
   {
     // Note that all constructors must have a different number of arguments.
-    boost::python::class_<TableProxy> ("Table",
-            boost::python::init<>())
+    py::class_<TableProxy> (m, "Table",
+            py::init<>())
 	    //  1 arg: copy constructor
-      .def (boost::python::init<TableProxy>())
+      .def (py::init<TableProxy>())
 	    //  2 arg: table query command
-      .def (boost::python::init<String, std::vector<TableProxy> >())
+      .def (py::init<String, std::vector<TableProxy> >())
 	    //  3 arg: open single table
-      .def (boost::python::init<String, Record, int>())
+      .def (py::init<String, Record, int>())
 	    //  4 arg: open multiple tables as concatenation
-      .def (boost::python::init<Vector<String>, Vector<String>, Record, int>())
+      .def (py::init<Vector<String>, Vector<String>, Record, int>())
 	    //  5 arg: concatenate open tables
-      .def (boost::python::init<std::vector<TableProxy>, Vector<String>, int, int, int>())
+      .def (py::init<std::vector<TableProxy>, Vector<String>, int, int, int>())
 	    //  7 arg: create new table
-      .def (boost::python::init<String, Record, String, String, int, Record, Record>())
+      .def (py::init<String, Record, String, String, int, Record, Record>())
 	    // 11 arg: read ascii
-      .def (boost::python::init<String, String, String, Bool, IPosition, String, String ,int, int, Vector<String>, Vector<String> >())
+      .def (py::init<String, String, String, Bool, IPosition, String, String ,int, int, Vector<String>, Vector<String> >())
 
       // Member functions
       // Functions starting with an underscore are wrapped in table.py.
       .def ("_flush", &TableProxy::flush,
-            (boost::python::arg("recursive")))
+            (py::arg("recursive")))
       .def ("_resync", &TableProxy::resync)
       .def ("_close", &TableProxy::close)
       .def ("_toascii", &TableProxy::toAscii,
- 	    (boost::python::arg("asciifile"),
- 	     boost::python::arg("headerfile"),
- 	     boost::python::arg("columnnames"),
- 	     boost::python::arg("sep"),
- 	     boost::python::arg("precision"),
- 	     boost::python::arg("usebrackets")))
+ 	    (py::arg("asciifile"),
+ 	     py::arg("headerfile"),
+ 	     py::arg("columnnames"),
+ 	     py::arg("sep"),
+ 	     py::arg("precision"),
+ 	     py::arg("usebrackets")))
       .def ("_rename", &TableProxy::rename,
- 	    (boost::python::arg("newtablename")))
+ 	    (py::arg("newtablename")))
       .def ("_copy", &TableProxy::copy,
- 	    (boost::python::arg("newtablename"),
- 	     boost::python::arg("memorytable"),
-	     boost::python::arg("deep"),
- 	     boost::python::arg("valuecopy"),
- 	     boost::python::arg("endian"),
- 	     boost::python::arg("dminfo"),
- 	     boost::python::arg("copynorows")))
+ 	    (py::arg("newtablename"),
+ 	     py::arg("memorytable"),
+	     py::arg("deep"),
+ 	     py::arg("valuecopy"),
+ 	     py::arg("endian"),
+ 	     py::arg("dminfo"),
+ 	     py::arg("copynorows")))
       .def ("_copyrows", &TableProxy::copyRows,
- 	    (boost::python::arg("outtable"),
- 	     boost::python::arg("startrowin"),
- 	     boost::python::arg("startrowout"),
- 	     boost::python::arg("nrow")))
+ 	    (py::arg("outtable"),
+ 	     py::arg("startrowin"),
+ 	     py::arg("startrowout"),
+ 	     py::arg("nrow")))
       .def ("_selectrows", &TableProxy::selectRows,
- 	    (boost::python::arg("rownrs"),
- 	     boost::python::arg("name")))
+ 	    (py::arg("rownrs"),
+ 	     py::arg("name")))
       .def ("_iswritable", &TableProxy::isWritable)
       .def ("_endianformat", &TableProxy::endianFormat)
       .def ("_lock", &TableProxy::lock,
- 	    (boost::python::arg("write"),
- 	     boost::python::arg("nattempts")))
+ 	    (py::arg("write"),
+ 	     py::arg("nattempts")))
       .def ("_unlock", &TableProxy::unlock)
       .def ("_haslock", &TableProxy::hasLock,
- 	    (boost::python::arg("write")))
+ 	    (py::arg("write")))
       .def ("_lockoptions", &TableProxy::lockOptions)
       .def ("_datachanged", &TableProxy::hasDataChanged)
       .def ("_ismultiused", &TableProxy::isMultiUsed,
- 	    (boost::python::arg("checksubtables")))
+ 	    (py::arg("checksubtables")))
       .def ("_name", &TableProxy::tableName)
       .def ("_partnames", &TableProxy::getPartNames,
- 	    (boost::python::arg("recursive")))
+ 	    (py::arg("recursive")))
       .def ("_info", &TableProxy::tableInfo)
       .def ("_putinfo", &TableProxy::putTableInfo,
- 	    (boost::python::arg("value")))
+ 	    (py::arg("value")))
       .def ("_addreadmeline", &TableProxy::addReadmeLine,
- 	    (boost::python::arg("value")))
+ 	    (py::arg("value")))
       .def ("_setmaxcachesize", &TableProxy::setMaximumCacheSize,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("nbytes")))
+	    (py::arg("columnname"),
+	     py::arg("nbytes")))
       .def ("_rownumbers", &TableProxy::rowNumbers,
-	    (boost::python::arg("table")))
+	    (py::arg("table")))
       .def ("_colnames", &TableProxy::columnNames)
       .def ("_isscalarcol", &TableProxy::isScalarColumn,
-	    (boost::python::arg("columnname")))
+	    (py::arg("columnname")))
       .def ("_coldatatype", &TableProxy::columnDataType,
-	    (boost::python::arg("columnname")))
+	    (py::arg("columnname")))
       .def ("_colarraytype", &TableProxy::columnArrayType,
-	    (boost::python::arg("columnname")))
+	    (py::arg("columnname")))
       .def ("_ncols", &TableProxy::ncolumns)
       .def ("_nrows", &TableProxy::nrows)
       .def ("_addcols", &TableProxy::addColumns,
-	    (boost::python::arg("desc"),
-             boost::python::arg("dminfo"),
-             boost::python::arg("addtoparent")))
+	    (py::arg("desc"),
+             py::arg("dminfo"),
+             py::arg("addtoparent")))
       .def ("_renamecol", &TableProxy::renameColumn,
-	    (boost::python::arg("oldname"),
-	     boost::python::arg("newname")))
+	    (py::arg("oldname"),
+	     py::arg("newname")))
       .def ("_removecols", &TableProxy::removeColumns,
-	    (boost::python::arg("columnnames")))
+	    (py::arg("columnnames")))
       .def ("_addrows", &TableProxy::addRow,
-	    (boost::python::arg("nrows")))
+	    (py::arg("nrows")))
       .def ("_removerows", &TableProxy::removeRow,
-	    (boost::python::arg("rownrs")))
+	    (py::arg("rownrs")))
       .def ("_iscelldefined", &TableProxy::cellContentsDefined,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr")))
+	    (py::arg("columnname"),
+	     py::arg("rownr")))
       .def ("_getcell", &TableProxy::getCell,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr")))
+	    (py::arg("columnname"),
+	     py::arg("rownr")))
       .def ("_getcellvh", &TableProxy::getCellVH,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-             boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("rownr"),
+             py::arg("value")))
       .def ("_getcellslice", &TableProxy::getCellSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc")))
+	    (py::arg("columnname"),
+	     py::arg("rownr"),
+	     py::arg("blc"),
+	     py::arg("trc"),
+	     py::arg("inc")))
       .def ("_getcellslicevh", &TableProxy::getCellSliceVHIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-             boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("rownr"),
+	     py::arg("blc"),
+	     py::arg("trc"),
+	     py::arg("inc"),
+             py::arg("value")))
       .def ("_getcol", &TableProxy::getColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
+	    (py::arg("columnname"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr")))
       .def ("_getcolvh", &TableProxy::getColumnVH,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-             boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr"),
+             py::arg("value")))
       .def ("_getvarcol", &TableProxy::getVarColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
+	    (py::arg("columnname"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr")))
       .def ("_getcolslice", &TableProxy::getColumnSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
+	    (py::arg("columnname"),
+	     py::arg("blc"),
+	     py::arg("trc"),
+	     py::arg("inc"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr")))
       .def ("_getcolslicevh", &TableProxy::getColumnSliceVHIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-             boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("blc"),
+	     py::arg("trc"),
+	     py::arg("inc"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr"),
+             py::arg("value")))
       .def ("_putcell", &TableProxy::putCell,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("rownr"),
+	     py::arg("value")))
       .def ("_putcellslice", &TableProxy::putCellSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("rownr"),
-	     boost::python::arg("value"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc")))
+	    (py::arg("columnname"),
+	     py::arg("rownr"),
+	     py::arg("value"),
+	     py::arg("blc"),
+	     py::arg("trc"),
+	     py::arg("inc")))
       .def ("_putcol", &TableProxy::putColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-	     boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr"),
+	     py::arg("value")))
       .def ("_putvarcol", &TableProxy::putVarColumn,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-	     boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr"),
+	     py::arg("value")))
       .def ("_putcolslice", &TableProxy::putColumnSliceIP,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("value"),
-	     boost::python::arg("blc"),
-	     boost::python::arg("trc"),
-	     boost::python::arg("inc"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr")))
+	    (py::arg("columnname"),
+	     py::arg("value"),
+	     py::arg("blc"),
+	     py::arg("trc"),
+	     py::arg("inc"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr")))
       .def ("_getcolshapestring", &TableProxy::getColumnShapeString,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("startrow"),
-	     boost::python::arg("nrow"),
-	     boost::python::arg("rowincr"),
-	     boost::python::arg("reverseaxes")))
+	    (py::arg("columnname"),
+	     py::arg("startrow"),
+	     py::arg("nrow"),
+	     py::arg("rowincr"),
+	     py::arg("reverseaxes")))
       .def ("_getkeyword", &TableProxy::getKeyword,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("keyword"),
-	     boost::python::arg("keywordindex")))
+	    (py::arg("columnname"),
+	     py::arg("keyword"),
+	     py::arg("keywordindex")))
       .def ("_getkeywords", &TableProxy::getKeywordSet,
-	    (boost::python::arg("columnname")))
+	    (py::arg("columnname")))
       .def ("_putkeyword", &TableProxy::putKeyword,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("keyword"),
-	     boost::python::arg("keywordindex"),
-	     boost::python::arg("makesubrecord"),
-	     boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("keyword"),
+	     py::arg("keywordindex"),
+	     py::arg("makesubrecord"),
+	     py::arg("value")))
       .def ("_putkeywords", &TableProxy::putKeywordSet,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("value")))
+	    (py::arg("columnname"),
+	     py::arg("value")))
       .def ("_removekeyword", &TableProxy::removeKeyword,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("keyword"),
-	     boost::python::arg("keywordindex")))
+	    (py::arg("columnname"),
+	     py::arg("keyword"),
+	     py::arg("keywordindex")))
       .def ("_getfieldnames", &TableProxy::getFieldNames,
-	    (boost::python::arg("columnname"),
-	     boost::python::arg("keyword"),
-	     boost::python::arg("keywordindex")))
+	    (py::arg("columnname"),
+	     py::arg("keyword"),
+	     py::arg("keywordindex")))
       .def ("_getdminfo", &TableProxy::getDataManagerInfo)
       .def ("_getdmprop", &TableProxy::getProperties,
-	    (boost::python::arg("name"),
-	     boost::python::arg("bycolumn")))
+	    (py::arg("name"),
+	     py::arg("bycolumn")))
       .def ("_setdmprop", &TableProxy::setProperties,
-	    (boost::python::arg("name"),
-             boost::python::arg("properties"),
-	     boost::python::arg("bycolumn")))
+	    (py::arg("name"),
+             py::arg("properties"),
+	     py::arg("bycolumn")))
       .def ("_getdesc", &TableProxy::getTableDescription,
-	    (boost::python::arg("actual"),
-	     boost::python::arg("_cOrder")=true))
+	    (py::arg("actual"),
+	     py::arg("_cOrder")=true))
       .def ("_getcoldesc", &TableProxy::getColumnDescription,
-	    (boost::python::arg("columnname"),
- 	     boost::python::arg("actual"),
-	     boost::python::arg("_cOrder")=true))
+	    (py::arg("columnname"),
+ 	     py::arg("actual"),
+	     py::arg("_cOrder")=true))
       .def ("_showstructure", &TableProxy::showStructure,
-	    (boost::python::arg("dataman"),
- 	     boost::python::arg("column"),
- 	     boost::python::arg("subtable"),
-	     boost::python::arg("sort")))
+	    (py::arg("dataman"),
+ 	     py::arg("column"),
+ 	     py::arg("subtable"),
+	     py::arg("sort")))
       .def ("_getasciiformat", &TableProxy::getAsciiFormat)
       .def ("_getcalcresult", &TableProxy::getCalcResult)
       ;

@@ -35,10 +35,11 @@
 #include <casacore/python/Converters/PycRecord.h>
 #include <casacore/python/Converters/PycArray.h>
 
-BOOST_PYTHON_MODULE(_fitting)
+PYBIND11_PLUGIN(_fitting)
 {
+  py::model m("fitting", "fitting python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_record();
-  casa::python::fit();
+  casa::python::fit(m);
 }

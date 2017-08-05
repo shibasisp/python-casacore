@@ -38,18 +38,18 @@ namespace py = pybind11;
 
 namespace casacore { namespace python {
 
-  void pytablerow()
+  void pytablerow(py::module& m)
   {
-    boost::python::class_<TableRowProxy> ("TableRow",
-	    boost::python::init<TableProxy, Vector<String>, Bool>())
+    py::class_<TableRowProxy> (m, "TableRow",
+	    py::init<TableProxy, Vector<String>, Bool>())
 
       .def ("_iswritable", &TableRowProxy::isWritable)
       .def ("_get", &TableRowProxy::get,
-	    (boost::python::arg("rownr")))
+	    (py::arg("rownr")))
       .def ("_put", &TableRowProxy::put,
-	    (boost::python::arg("rownr"),
-	     boost::python::arg("value"),
-	     boost::python::arg("matchingfields")))
+	    (py::arg("rownr"),
+	     py::arg("value"),
+	     py::arg("matchingfields")))
       ;
   }
 

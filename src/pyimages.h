@@ -28,11 +28,12 @@
 #ifndef PYRAP_IMAGES_H
 #define PYRAP_IMAGES_H
 
+#include <pybind11/pybind11.h>
 #include <casacore/casa/aips.h>
 
 namespace casacore {
   namespace python {
-    void pyimages();
+    void pyimages(py::module& m);
   } // python
 } //casa
 

@@ -29,12 +29,13 @@
 #define PYRAP_QUANTA_H
 
 #include <casacore/casa/aips.h>
+#include <pybind11/pybind11.h>
 
 namespace casacore {
   namespace python {
-    void quantity();
-    void quantvec();
-    void quantamath();
+    void quantity(py::module& m);
+    void quantvec(py::module& m);
+    void quantamath(py::module& m);
   } // python
 } //casa
 

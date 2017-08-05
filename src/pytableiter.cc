@@ -38,10 +38,10 @@ namespace py = pybind11;
 
 namespace casacore { namespace python {
 
-  void pytableiter()
+  void pytableiter(py::module& m)
   {
-    boost::python::class_<TableIterProxy> ("TableIter",
-	    boost::python::init<TableProxy, Vector<String>, String, String>())
+    py::class_<TableIterProxy> (m, "TableIter",
+	    py::init<TableProxy, Vector<String>, String, String>())
 
       .def ("_reset", &TableIterProxy::reset)
       .def ("_next", &TableIterProxy::next)

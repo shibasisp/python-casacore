@@ -38,10 +38,10 @@ namespace py = pybind11;
 namespace casacore { namespace python {
 
 
-  void functional()
+  void functional(py::module& m)
   {
-    boost::python::class_<FunctionalProxy> ("_functional")
-    .def ( boost::python::init< const Record&, int>())
+    py::class_<FunctionalProxy> (m, "_functional")
+    .def ( py::init< const Record&, int>())
       .def ("_f", &FunctionalProxy::f)
       .def ("_fc", &FunctionalProxy::fc)
       .def ("_fdf", &FunctionalProxy::fdf)

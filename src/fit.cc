@@ -37,10 +37,10 @@
 namespace py = pybind11;
 
 namespace casacore { namespace python {
-  void fit()
+  void fit(py::module& m)
   {
-    boost::python::class_<FittingProxy> ("fitting")
-      .def (boost::python::init<>())
+    py::class_<FittingProxy> (m, "fitting")
+      .def (py::init<>())
       .def ("getid", &FittingProxy::getid)
       .def ("getstate", &FittingProxy::getstate)
       .def ("init", &FittingProxy::init)
@@ -48,35 +48,35 @@ namespace casacore { namespace python {
       .def ("reset", &FittingProxy::reset)
       .def ("set", &FittingProxy::set)
       .def ("functional", &FittingProxy::functional,
- 	    (boost::python::arg("id"),
-	     boost::python::arg("fnct"),
-	     boost::python::arg("x"),
- 	     boost::python::arg("y"),
- 	     boost::python::arg("wt"),
- 	     boost::python::arg("mxit"),
- 	     boost::python::arg("constraint")))
+ 	    (py::arg("id"),
+	     py::arg("fnct"),
+	     py::arg("x"),
+ 	     py::arg("y"),
+ 	     py::arg("wt"),
+ 	     py::arg("mxit"),
+ 	     py::arg("constraint")))
       .def ("linear", &FittingProxy::linear,
- 	    (boost::python::arg("id"),
-	     boost::python::arg("fnct"),
-	     boost::python::arg("x"),
- 	     boost::python::arg("y"),
- 	     boost::python::arg("wt"),
- 	     boost::python::arg("constraint")))
+ 	    (py::arg("id"),
+	     py::arg("fnct"),
+	     py::arg("x"),
+ 	     py::arg("y"),
+ 	     py::arg("wt"),
+ 	     py::arg("constraint")))
       .def ("cxfunctional", &FittingProxy::cxfunctional,
- 	    (boost::python::arg("id"),
-	     boost::python::arg("fnct"),
-	     boost::python::arg("x"),
- 	     boost::python::arg("y"),
- 	     boost::python::arg("wt"),
- 	     boost::python::arg("mxit"),
- 	     boost::python::arg("constraint")))
+ 	    (py::arg("id"),
+	     py::arg("fnct"),
+	     py::arg("x"),
+ 	     py::arg("y"),
+ 	     py::arg("wt"),
+ 	     py::arg("mxit"),
+ 	     py::arg("constraint")))
       .def ("cxlinear", &FittingProxy::cxlinear,
- 	    (boost::python::arg("id"),
-	     boost::python::arg("fnct"),
-	     boost::python::arg("x"),
- 	     boost::python::arg("y"),
- 	     boost::python::arg("wt"),
- 	     boost::python::arg("constraint")))
+ 	    (py::arg("id"),
+	     py::arg("fnct"),
+	     py::arg("x"),
+ 	     py::arg("y"),
+ 	     py::arg("wt"),
+ 	     py::arg("constraint")))
         ;
   }
 }}

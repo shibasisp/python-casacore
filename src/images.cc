@@ -38,8 +38,9 @@
 
 #include <boost/python.hpp>
 
-BOOST_PYTHON_MODULE(_images)
+PYBIND11_PLUGIN(_images)
 {
+  py::model m("images", "images python binding");
   // Register the required pyrap converters.
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
@@ -52,5 +53,5 @@ BOOST_PYTHON_MODULE(_images)
   casa::MIRIADImage::registerOpenFunction();
 
   // Make python interface to images.
-  casa::python::pyimages();
+  casa::python::pyimages(m);
 }

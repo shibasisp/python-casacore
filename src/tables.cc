@@ -36,19 +36,19 @@
 
 #include <boost/python.hpp>
 
-BOOST_PYTHON_MODULE(_tables)
+PYBIND11_PLUGIN(_tables)
 {
+  py::model m("tables", "tables python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_valueholder();
   casa::python::register_convert_casa_record();
   casa::python::register_convert_std_vector<casa::TableProxy>();
 
-  casa::python::pytable();
-  casa::python::pytablerow();
-  casa::python::pytableiter();
-  casa::python::pytableindex();
+  casa::python::pytable(m);
+  casa::python::pytablerow(m);
+  casa::python::pytableiter(m);
+  casa::python::pytableindex(m);
 
-  casa::python::pyms();
+  casa::python::pyms(m);
 }
-

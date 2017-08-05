@@ -38,8 +38,8 @@ namespace py = pybind11;
 namespace casacore {
   namespace python {
 
-    boost::python::dict constants() {
-      boost::python::dict d;
+    py::dict constants() {
+      py::dict d;
       const uInt N = 20;
       static String types[N] = {
 	"pi", "ee", "c", "G", "h", "HI", "R", "NA", "e", "mp",
@@ -58,12 +58,12 @@ namespace casacore {
       return d;
     }
 
-    boost::python::dict unitMap(map<String, UnitName> mymap) {
-      boost::python::dict d;
+    py::dict unitMap(map<String, UnitName> mymap) {
+      py::dict d;
 
       for (map<String, UnitName>::iterator i=mymap.begin();
        i != mymap.end(); ++i) {
-        boost::python::list unitdesc;
+        py::list unitdesc;
         ostringstream oss;
 // Test for casacore > 2.0.3
 #if CASACORE_MAJOR_VERSION>2 || (CASACORE_MAJOR_VERSION==2 && \
@@ -86,7 +86,7 @@ namespace casacore {
       return d;
     }
 
-    boost::python::dict units() {
+    py::dict units() {
       map<String, UnitName> mapSI = UnitMap::giveSI();
       map<String, UnitName> mapDef = UnitMap::giveDef();
       map<String, UnitName> mapCust = UnitMap::giveCust();
@@ -95,7 +95,7 @@ namespace casacore {
       return unitMap(mapSI);
     }
 
-    boost::python::dict prefixes() {
+    py::dict prefixes() {
       map<String, UnitName> mapPref = UnitMap::givePref();
       return unitMap(mapPref);
     }
@@ -103,92 +103,92 @@ namespace casacore {
 
     typedef Quantum<Vector<Double> > QProxy;
     typedef Vector<Double> VD;
-    void quantamath()
+    void quantamath(py::module& m)
     {
       // misc
-      boost::python::def ("constants", &constants);
-      boost::python::def ("units", &units);
-      boost::python::def ("prefixes", &prefixes);
+      py::def ("constants", &constants);
+      py::def ("units", &units);
+      py::def ("prefixes", &prefixes);
 
       // Quantum<Vector<Double> > functions
 
-      boost::python::def ("nearabs", (Bool ( * )( const QProxy&, const QProxy&,
+      py::def ("nearabs", (Bool ( * )( const QProxy&, const QProxy&,
 				   Double ) )(&nearAbs));
-      boost::python::def ("nearabs", (Bool ( * )( const VD&, const QProxy&,
+      py::def ("nearabs", (Bool ( * )( const VD&, const QProxy&,
 				   Double ) )(&nearAbs));
-      boost::python::def ("nearabs", (Bool ( * )( const QProxy&, const VD&,
+      py::def ("nearabs", (Bool ( * )( const QProxy&, const VD&,
 				   Double ) )(&nearAbs));
 
-      boost::python::def ("near", (Bool ( * )( const QProxy&, const QProxy&,
+      py::def ("near", (Bool ( * )( const QProxy&, const QProxy&,
 				Double ) )(&near));
-      boost::python::def ("near", (Bool ( * )( const VD&, const QProxy&,
+      py::def ("near", (Bool ( * )( const VD&, const QProxy&,
 				Double ) )(&near));
-      boost::python::def ("near", (Bool ( * )( const QProxy&, const VD&,
+      py::def ("near", (Bool ( * )( const QProxy&, const VD&,
 				Double ) )(&near));
 
-      boost::python::def ("abs", (QProxy ( * )( const QProxy&) )(&abs));
-      boost::python::def ("pow", (QProxy ( * )( const QProxy&, Int) )(&pow));
-      boost::python::def ("root", (QProxy ( * )( const QProxy&, Int) )(&root));
-      boost::python::def ("sqrt", (QProxy ( * )( const QProxy&) )(&sqrt));
-      boost::python::def ("ceil", (QProxy ( * )( const QProxy&) )(&ceil));
-      boost::python::def ("floor", (QProxy ( * )( const QProxy&) )(&floor));
+      py::def ("abs", (QProxy ( * )( const QProxy&) )(&abs));
+      py::def ("pow", (QProxy ( * )( const QProxy&, Int) )(&pow));
+      py::def ("root", (QProxy ( * )( const QProxy&, Int) )(&root));
+      py::def ("sqrt", (QProxy ( * )( const QProxy&) )(&sqrt));
+      py::def ("ceil", (QProxy ( * )( const QProxy&) )(&ceil));
+      py::def ("floor", (QProxy ( * )( const QProxy&) )(&floor));
 
-      boost::python::def ("sin", (QProxy ( * )( const QProxy&) )(&sin));
-      boost::python::def ("cos", (QProxy ( * )( const QProxy&) )(&cos));
-      boost::python::def ("tan", (QProxy ( * )( const QProxy&) )(&tan));
-      boost::python::def ("asin", (QProxy ( * )( const QProxy&) )(&asin));
-      boost::python::def ("acos", (QProxy ( * )( const QProxy&) )(&acos));
-      boost::python::def ("atan", (QProxy ( * )( const QProxy&) )(&atan));
-      boost::python::def ("atan2", (QProxy ( * )( const QProxy&, const QProxy&) )(&atan2));
-      boost::python::def ("atan2", (QProxy ( * )( const QProxy&, const VD&) )(&atan2));
-      boost::python::def ("atan2", (QProxy ( * )( const VD&, const QProxy&) )(&atan2));
+      py::def ("sin", (QProxy ( * )( const QProxy&) )(&sin));
+      py::def ("cos", (QProxy ( * )( const QProxy&) )(&cos));
+      py::def ("tan", (QProxy ( * )( const QProxy&) )(&tan));
+      py::def ("asin", (QProxy ( * )( const QProxy&) )(&asin));
+      py::def ("acos", (QProxy ( * )( const QProxy&) )(&acos));
+      py::def ("atan", (QProxy ( * )( const QProxy&) )(&atan));
+      py::def ("atan2", (QProxy ( * )( const QProxy&, const QProxy&) )(&atan2));
+      py::def ("atan2", (QProxy ( * )( const QProxy&, const VD&) )(&atan2));
+      py::def ("atan2", (QProxy ( * )( const VD&, const QProxy&) )(&atan2));
 
-      boost::python::def ("log", (QProxy ( * )( const QProxy&) )(&log));
-      boost::python::def ("log10", (QProxy ( * )( const QProxy&) )(&log10));
-      boost::python::def ("exp", (QProxy ( * )( const QProxy&) )(&exp));
+      py::def ("log", (QProxy ( * )( const QProxy&) )(&log));
+      py::def ("log10", (QProxy ( * )( const QProxy&) )(&log10));
+      py::def ("exp", (QProxy ( * )( const QProxy&) )(&exp));
 
 
       // Quantity functions
 
-      boost::python::def ("nearabs", (Bool ( * )( const Quantity&,
+      py::def ("nearabs", (Bool ( * )( const Quantity&,
 				   const Quantity&) )(&nearAbs));
-      boost::python::def ("nearabs", (Bool ( * )( const Quantity&, const Quantity&,
+      py::def ("nearabs", (Bool ( * )( const Quantity&, const Quantity&,
 				   Double ) )(&nearAbs));
-      boost::python::def ("nearabs", (Bool ( * )( const Double&, const Quantity&,
+      py::def ("nearabs", (Bool ( * )( const Double&, const Quantity&,
 				   Double ) )(&nearAbs));
-      boost::python::def ("nearabs", (Bool ( * )( const Quantity&, const Double&,
+      py::def ("nearabs", (Bool ( * )( const Quantity&, const Double&,
 				   Double ) )(&nearAbs));
-      boost::python::def ("near", (Bool ( * )( const Quantity&, const Quantity&) )(&near));
+      py::def ("near", (Bool ( * )( const Quantity&, const Quantity&) )(&near));
 
-      boost::python::def ("near", (Bool ( * )( const Quantity&, const Quantity&,
+      py::def ("near", (Bool ( * )( const Quantity&, const Quantity&,
 				Double ) )(&near));
-      boost::python::def ("near", (Bool ( * )( const Double&, const Quantity&,
+      py::def ("near", (Bool ( * )( const Double&, const Quantity&,
 				Double ) )(&near));
-      boost::python::def ("near", (Bool ( * )( const Quantity&, const Double&,
+      py::def ("near", (Bool ( * )( const Quantity&, const Double&,
 				Double ) )(&near));
-      boost::python::def ("abs", (Quantity ( * )( const Quantity&) )(&abs));
-      boost::python::def ("pow", (Quantity ( * )( const Quantity&, Int) )(&pow));
-      boost::python::def ("root", (Quantity ( * )( const Quantity&, Int) )(&root));
-      boost::python::def ("sqrt", (Quantity ( * )( const Quantity&) )(&sqrt));
-      boost::python::def ("ceil", (Quantity ( * )( const Quantity&) )(&ceil));
-      boost::python::def ("floor", (Quantity ( * )( const Quantity&) )(&floor));
+      py::def ("abs", (Quantity ( * )( const Quantity&) )(&abs));
+      py::def ("pow", (Quantity ( * )( const Quantity&, Int) )(&pow));
+      py::def ("root", (Quantity ( * )( const Quantity&, Int) )(&root));
+      py::def ("sqrt", (Quantity ( * )( const Quantity&) )(&sqrt));
+      py::def ("ceil", (Quantity ( * )( const Quantity&) )(&ceil));
+      py::def ("floor", (Quantity ( * )( const Quantity&) )(&floor));
 
-      boost::python::def ("sin", (Quantity ( * )( const Quantity&) )(&sin));
-      boost::python::def ("cos", (Quantity ( * )( const Quantity&) )(&cos));
-      boost::python::def ("tan", (Quantity ( * )( const Quantity&) )(&tan));
-      boost::python::def ("asin", (Quantity ( * )( const Quantity&) )(&asin));
-      boost::python::def ("acos", (Quantity ( * )( const Quantity&) )(&acos));
-      boost::python::def ("atan", (Quantity ( * )( const Quantity&) )(&atan));
-      boost::python::def ("atan2", (Quantity ( * )( const Quantity&,
+      py::def ("sin", (Quantity ( * )( const Quantity&) )(&sin));
+      py::def ("cos", (Quantity ( * )( const Quantity&) )(&cos));
+      py::def ("tan", (Quantity ( * )( const Quantity&) )(&tan));
+      py::def ("asin", (Quantity ( * )( const Quantity&) )(&asin));
+      py::def ("acos", (Quantity ( * )( const Quantity&) )(&acos));
+      py::def ("atan", (Quantity ( * )( const Quantity&) )(&atan));
+      py::def ("atan2", (Quantity ( * )( const Quantity&,
 				     const Quantity&) )(&atan2));
-      boost::python::def ("atan2", (Quantity ( * )( const Quantity&,
+      py::def ("atan2", (Quantity ( * )( const Quantity&,
 				     const Double&) )(&atan2));
-      boost::python::def ("atan2", (Quantity ( * )( const Double&,
+      py::def ("atan2", (Quantity ( * )( const Double&,
 				     const Quantity&) )(&atan2));
 
-      boost::python::def ("log", (Quantity ( * )( const Quantity&) )(&log));
-      boost::python::def ("log10", (Quantity ( * )( const Quantity&) )(&log10));
-      boost::python::def ("exp", (Quantity ( * )( const Quantity&) )(&exp));
+      py::def ("log", (Quantity ( * )( const Quantity&) )(&log));
+      py::def ("log10", (Quantity ( * )( const Quantity&) )(&log10));
+      py::def ("exp", (Quantity ( * )( const Quantity&) )(&exp));
     }
   }
 }

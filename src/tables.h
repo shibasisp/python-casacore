@@ -29,16 +29,17 @@
 #define APPSPYTHON_PYCASATABLE_H
 
 #include <casacore/casa/aips.h>
+#include <pybind11/pybind11.h>
 
 namespace casacore {
   namespace python {
 
-    void pytable();
-    void pytablerow();
-    void pytableiter();
-    void pytableindex();
+    void pytable(py::module& m);
+    void pytablerow(py::module& m);
+    void pytableiter(py::module& m);
+    void pytableindex(py::module& m);
 
-    void pyms();
+    void pyms(py::module& m);
 
   } // python
 } //casa

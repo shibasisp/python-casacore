@@ -32,11 +32,12 @@
 #include <casacore/python/Converters/PycRecord.h>
 #include "pymeasures.h"
 
-BOOST_PYTHON_MODULE(_measures)
+PYBIND11_PLUGIN(_measures)
 {
+  py::model m("measures", "measures python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_record();
 
-  casa::python::pymeas();
+  casa::python::pymeas(m);
 }

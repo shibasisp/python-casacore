@@ -29,10 +29,11 @@
 #define PYRAP_FITTING_H
 
 #include <casacore/casa/aips.h>
+#include <pybind11/pybind11.h>
 
 namespace casacore {
   namespace python {
-    void fit();
+    void fit(py::module& m);
   } // python
 } //casa
 

@@ -33,13 +33,14 @@
 
 #include <boost/python.hpp>
 
-BOOST_PYTHON_MODULE(_quanta)
+PYBIND11_PLUGIN(_quanta)
 {
+  py::model m("quanta", "quanta python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_record();
 
-  casa::python::quantity();
-  casa::python::quantvec();
-  casa::python::quantamath();
+  casa::python::quantity(m);
+  casa::python::quantvec(m);
+  casa::python::quantamath(m);
 }

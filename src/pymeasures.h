@@ -28,11 +28,12 @@
 #ifndef PYRAP_MEASURES_H
 #define PYRAP_PYMEASURES_H
 
+#include <pybind11/pybind11.h>
 #include <casacore/casa/aips.h>
 
 namespace casacore {
   namespace python {
-    void pymeas();
+    void pymeas(py::module& m);
   } // python
 } //casa
 

@@ -31,36 +31,36 @@
 #include <casacore/python/Converters/PycRecord.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
-#include<pybind11/pybind11.h>
+#include <pybind11/pybind11.h>
 
 namespace py = pybind11;
 
 namespace casacore { namespace python {
 
-  void pyimages()
+  void pyimages(py::module& m)
   {
     // Note that all constructors must have a different number of arguments.
-    boost::python::class_<ImageProxy> ("Image")
+    py::class_<ImageProxy> (m, "Image")
             // 1 arg: copy constructor
-      .def (boost::python::init<ImageProxy>())
+      .def (py::init<ImageProxy>())
 	    // 2 arg: concat from image names
-      .def (boost::python::init<Vector<String>, Int>())
+      .def (py::init<Vector<String>, Int>())
             // 3 arg: open image or image expression
-      .def (boost::python::init<String, String, vector<ImageProxy> >())
+      .def (py::init<String, String, vector<ImageProxy> >())
 	    // 4 arg: concat from images objects
-      .def (boost::python::init<std::vector<ImageProxy>, Int, Int, Int>())
+      .def (py::init<std::vector<ImageProxy>, Int, Int, Int>())
             // 8 arg: create image from array
-      .def (boost::python::init<ValueHolder, ValueHolder, Record, String, Bool, Bool,
+      .def (py::init<ValueHolder, ValueHolder, Record, String, Bool, Bool,
             String, IPosition>())
             // 9 arg: create image from shape
-      .def (boost::python::init<IPosition, ValueHolder, Record, String, Bool, Bool,
+      .def (py::init<IPosition, ValueHolder, Record, String, Bool, Bool,
             String, IPosition, Int>())
 
       // Member functions.
       // Functions starting with un underscore are wrapped in image.py.
       .def ("_ispersistent", &ImageProxy::isPersistent)
       .def ("_name", &ImageProxy::name,
-            (boost::python::arg("strippath")))
+            (py::arg("strippath")))
       .def ("_shape", &ImageProxy::shape)
       .def ("_ndim", &ImageProxy::ndim)
       .def ("_size", &ImageProxy::size)
@@ -71,86 +71,86 @@ namespace casacore { namespace python {
       .def ("_putdata", &ImageProxy::putData)
       .def ("_putmask", &ImageProxy::putMask)
       .def ("_haslock", &ImageProxy::hasLock,
- 	    (boost::python::arg("write")))
+ 	    (py::arg("write")))
       .def ("_lock", &ImageProxy::lock,
- 	    (boost::python::arg("write"),
- 	     boost::python::arg("nattempts")))
+ 	    (py::arg("write"),
+ 	     py::arg("nattempts")))
       .def ("_unlock", &ImageProxy::unlock)
       .def ("_attrgroupnames", &ImageProxy::attrGroupNames)
       .def ("_attrcreategroup", &ImageProxy::createAttrGroup,
-            (boost::python::arg("groupname")))
+            (py::arg("groupname")))
       .def ("_attrnames", &ImageProxy::attrNames,
-            (boost::python::arg("groupname")))
+            (py::arg("groupname")))
       .def ("_attrnrows", &ImageProxy::attrNrows,
-            (boost::python::arg("groupname")))
+            (py::arg("groupname")))
       .def ("_attrget", &ImageProxy::getAttr,
-            (boost::python::arg("groupname"),
-             boost::python::arg("attrname"),
-             boost::python::arg("rownr")))
+            (py::arg("groupname"),
+             py::arg("attrname"),
+             py::arg("rownr")))
       .def ("_attrgetrow", &ImageProxy::getAttrRow,
-            (boost::python::arg("groupname"),
-             boost::python::arg("rownr")))
+            (py::arg("groupname"),
+             py::arg("rownr")))
       .def ("_attrgetunit", &ImageProxy::getAttrUnit,
-            (boost::python::arg("groupname"),
-             boost::python::arg("attrname")))
+            (py::arg("groupname"),
+             py::arg("attrname")))
       .def ("_attrgetmeas", &ImageProxy::getAttrMeas,
-            (boost::python::arg("groupname"),
-             boost::python::arg("attrname")))
+            (py::arg("groupname"),
+             py::arg("attrname")))
       .def ("_attrput", &ImageProxy::putAttr,
-            (boost::python::arg("groupname"),
-             boost::python::arg("attrname"),
-             boost::python::arg("rownr"),
-             boost::python::arg("value"),
-             boost::python::arg("unit"),
-             boost::python::arg("meas")))
+            (py::arg("groupname"),
+             py::arg("attrname"),
+             py::arg("rownr"),
+             py::arg("value"),
+             py::arg("unit"),
+             py::arg("meas")))
       .def ("_subimage", &ImageProxy::subImage,
-            (boost::python::arg("blc"),
-             boost::python::arg("trc"),
-             boost::python::arg("inc"),
-             boost::python::arg("dropdegenerate")))
+            (py::arg("blc"),
+             py::arg("trc"),
+             py::arg("inc"),
+             py::arg("dropdegenerate")))
       .def ("_coordinates", &ImageProxy::coordSys)
       .def ("_toworld", &ImageProxy::toWorld,
-            (boost::python::arg("pixel"),
-             boost::python::arg("reverseAxes")))
+            (py::arg("pixel"),
+             py::arg("reverseAxes")))
       .def ("_topixel", &ImageProxy::toPixel,
-            (boost::python::arg("world"),
-             boost::python::arg("reverseAxes")))
+            (py::arg("world"),
+             py::arg("reverseAxes")))
       .def ("_imageinfo", &ImageProxy::imageInfo)
       .def ("_miscinfo", &ImageProxy::miscInfo)
       .def ("_unit", &ImageProxy::unit)
       .def ("_history", &ImageProxy::history)
       .def ("_tofits", &ImageProxy::toFits,
-            (boost::python::arg("filename"),
-             boost::python::arg("overwrite"),
-             boost::python::arg("velocity"),
-             boost::python::arg("optical"),
-             boost::python::arg("bitpix"),
-             boost::python::arg("minpix"),
-             boost::python::arg("maxpix")))
+            (py::arg("filename"),
+             py::arg("overwrite"),
+             py::arg("velocity"),
+             py::arg("optical"),
+             py::arg("bitpix"),
+             py::arg("minpix"),
+             py::arg("maxpix")))
       .def ("_saveas", &ImageProxy::saveAs,
-            (boost::python::arg("filename"),
-             boost::python::arg("overwrite"),
-             boost::python::arg("hdf5"),
-             boost::python::arg("copymask"),
-             boost::python::arg("newmaskname"),
-             boost::python::arg("newtileshape")))
+            (py::arg("filename"),
+             py::arg("overwrite"),
+             py::arg("hdf5"),
+             py::arg("copymask"),
+             py::arg("newmaskname"),
+             py::arg("newtileshape")))
       .def ("_statistics", &ImageProxy::statistics,
-            (boost::python::arg("axes"),
-             boost::python::arg("mask"),
-             boost::python::arg("minMaxValues"),
-             boost::python::arg("exclude"),
-             boost::python::arg("robust")))
+            (py::arg("axes"),
+             py::arg("mask"),
+             py::arg("minMaxValues"),
+             py::arg("exclude"),
+             py::arg("robust")))
       .def ("_regrid", &ImageProxy::regrid,
-            (boost::python::arg("axes"),
-             boost::python::arg("outname"),
-             boost::python::arg("overwrite"),
-             boost::python::arg("outshape"),
-             boost::python::arg("coordsys"),
-             boost::python::arg("interpolation"),
-             boost::python::arg("decimate"),
-             boost::python::arg("replicate"),
-             boost::python::arg("refchange"),
-             boost::python::arg("forceregrid")))
+            (py::arg("axes"),
+             py::arg("outname"),
+             py::arg("overwrite"),
+             py::arg("outshape"),
+             py::arg("coordsys"),
+             py::arg("interpolation"),
+             py::arg("decimate"),
+             py::arg("replicate"),
+             py::arg("refchange"),
+             py::arg("forceregrid")))
     ;
   }
 

@@ -34,11 +34,12 @@
 #include <casacore/python/Converters/PycArray.h>
 #include <casacore/python/Converters/PycRecord.h>
 
-BOOST_PYTHON_MODULE(_functionals)
+PYBIND11_PLUGIN(_functionals)
 {
+  py::model m("functional", "functional python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_record();
 
-  casa::python::functional();
+  casa::python::functional(m);
 }

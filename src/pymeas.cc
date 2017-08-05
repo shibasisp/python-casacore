@@ -35,10 +35,10 @@
 namespace py = pybind11;
 
 namespace casacore { namespace python {
-  void pymeas()
+  void pymeas(py::module& m)
   {
-    boost::python::class_<MeasuresProxy> ("measures")
-      .def (boost::python::init<>())
+    py::class_<MeasuresProxy> (m, "measures")
+      .def (py::init<>())
       .def ("measure", &MeasuresProxy::measure)
       .def ("dirshow", &MeasuresProxy::dirshow)
       .def ("doframe", &MeasuresProxy::doframe)

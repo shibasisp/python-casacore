@@ -153,21 +153,21 @@ namespace casacore {
 }}
 
 namespace casacore { namespace python {
-  void quantity()
+  void quantity(py::module& m)
   {
-    boost::python::class_<Quantity> ("Quantity")
-      .def (boost::python::init< >())
-      .def (boost::python::init< const Quantity& > ())
-      .def (boost::python::init< Double, const String& >())
-      .def ("__repr__", &printQuantum, (boost::python::arg("self"),
-					boost::python::arg("fmt")="",
-					boost::python::arg("precision")=0))
+    py::class_<Quantity> (m, "Quantity")
+      .def (py::init< >())
+      .def (py::init< const Quantity& > ())
+      .def (py::init< Double, const String& >())
+      .def ("__repr__", &printQuantum, (py::arg("self"),
+					py::arg("fmt")="",
+					py::arg("precision")=0))
       .def ("get_value", (const Double& ( Quantity::* )( ) const)(&Quantity::getValue),
-	    boost::python::return_value_policy < boost::python::copy_const_reference> ()
+	    py::return_value_policy < py::copy_const_reference> ()
 	    )
       .def ("get_value", &getValueWithUnit)
       .def ("get_unit", &Quantity::getUnit,
-	    boost::python::return_value_policy < boost::python::copy_const_reference> ())
+	    py::return_value_policy < py::copy_const_reference> ())
       .def ("convert", (void ( Quantity::* )( const Quantity& ) )(&Quantity::convert))
       .def ("convert", (void ( Quantity::* )( ) )(&Quantity::convert))
       .def ("set_value", &Quantity::setValue)
@@ -182,55 +182,55 @@ namespace casacore { namespace python {
       .def ("to_angle", &toAngle)
       .def ("to_unix_time", &toUnixTime)
       .def ("to_dict", &toRecord)
-      .def ("norm", &norm,  (boost::python::arg("self"), boost::python::arg("a")=-0.5))
-      .def (-boost::python::self)
-      .def (boost::python::self - boost::python::self)
-      .def (boost::python::self -= boost::python::self)
-      .def (boost::python::self -= Double())
-      .def (boost::python::self - Double() )
-      .def (Double() - boost::python::self)
-      .def (+boost::python::self)
-      .def (boost::python::self + boost::python::self)
-      .def (boost::python::self += boost::python::self)
-      .def (boost::python::self += Double())
-      .def (boost::python::self + Double() )
-      .def (Double() + boost::python::self)
-      .def (boost::python::self * boost::python::self)
-      .def (boost::python::self *= boost::python::self)
-      .def (boost::python::self *= Double())
-      .def (boost::python::self * Double() )
-      .def (Double() * boost::python::self)
-      .def (boost::python::self / boost::python::self)
-      .def (boost::python::self /= boost::python::self)
-      .def (boost::python::self /= Double())
-      .def (boost::python::self / Double() )
-      .def (Double() / boost::python::self)
-      .def (boost::python::self == boost::python::self)
-      .def (boost::python::self == Double())
-      .def (Double() == boost::python::self)
-      .def (boost::python::self != boost::python::self)
-      .def (boost::python::self != Double())
-      .def (Double() != boost::python::self)
+      .def ("norm", &norm,  (py::arg("self"), py::arg("a")=-0.5))
+      .def (-py::self)
+      .def (py::self - py::self)
+      .def (py::self -= py::self)
+      .def (py::self -= Double())
+      .def (py::self - Double() )
+      .def (Double() - py::self)
+      .def (+py::self)
+      .def (py::self + py::self)
+      .def (py::self += py::self)
+      .def (py::self += Double())
+      .def (py::self + Double() )
+      .def (Double() + py::self)
+      .def (py::self * py::self)
+      .def (py::self *= py::self)
+      .def (py::self *= Double())
+      .def (py::self * Double() )
+      .def (Double() * py::self)
+      .def (py::self / py::self)
+      .def (py::self /= py::self)
+      .def (py::self /= Double())
+      .def (py::self / Double() )
+      .def (Double() / py::self)
+      .def (py::self == py::self)
+      .def (py::self == Double())
+      .def (Double() == py::self)
+      .def (py::self != py::self)
+      .def (py::self != Double())
+      .def (Double() != py::self)
 
-      .def (boost::python::self < boost::python::self)
-      .def (boost::python::self < Double())
-      .def (Double() < boost::python::self)
-      .def (boost::python::self <= boost::python::self)
-      .def (boost::python::self <= Double())
-      .def (Double() <= boost::python::self)
+      .def (py::self < py::self)
+      .def (py::self < Double())
+      .def (Double() < py::self)
+      .def (py::self <= py::self)
+      .def (py::self <= Double())
+      .def (Double() <= py::self)
 
-      .def (boost::python::self > boost::python::self)
-      .def (boost::python::self > Double())
-      .def (Double() > boost::python::self)
-      .def (boost::python::self >= boost::python::self)
-      .def (boost::python::self >= Double())
-      .def (Double() >= boost::python::self)
-      .def ("formatted", &printQuantum, printQuantumOVL((boost::python::arg("q"),
-                                                         boost::python::arg("fmt")="",
-							 boost::python::arg("precision")=0)))
+      .def (py::self > py::self)
+      .def (py::self > Double())
+      .def (Double() > py::self)
+      .def (py::self >= py::self)
+      .def (py::self >= Double())
+      .def (Double() >= py::self)
+      .def ("formatted", &printQuantum, printQuantumOVL((py::arg("q"),
+                                                         py::arg("fmt")="",
+							 py::arg("precision")=0)))
       ;
-    boost::python::def ("from_string", &fromString);
-    boost::python::def ("from_dict", &fromRecord);
+    py::def ("from_string", &fromString);
+    py::def ("from_dict", &fromRecord);
 
   }
 }}

@@ -38,10 +38,10 @@ namespace py = pybind11;
 
 namespace casacore { namespace python {
 
-  void pytableindex()
+  void pytableindex(py::module& m)
   {
-    boost::python::class_<TableIndexProxy> ("TableIndex",
-	    boost::python::init<TableProxy, Vector<String>, Bool>())
+    py::class_<TableIndexProxy> (m, "TableIndex",
+	    py::init<TableProxy, Vector<String>, Bool>())
 
       .def ("_isunique", &TableIndexProxy::isUnique)
       .def ("_colnames", &TableIndexProxy::columnNames)

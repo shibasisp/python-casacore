@@ -28,11 +28,12 @@
 #ifndef PYRAP_FUNCTIONALS_H
 #define PYRAP_FUNCTIONALS_H
 
+#include <pybind11/pybind11.h>
 #include <casacore/casa/aips.h>
 
 namespace casacore {
   namespace python {
-    void functional();
+    void functional(py::module& m);
   } // python
 } //casa
 
