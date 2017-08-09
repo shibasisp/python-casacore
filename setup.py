@@ -4,7 +4,8 @@ Setup script for the CASACORE python wrapper.
 """
 import os
 import sys
-import platform
+import setuptools
+from setuptools.command.build_ext import build_ext
 from setuptools import setup, Extension, find_packages
 from distutils.sysconfig import get_config_vars
 from distutils import ccompiler
@@ -36,7 +37,7 @@ def find_library_file(libname):
     args, unknown = parser.parse_known_args()
     user_libdirs = args.library_dirs.split(':')
     # Append default search path (not a complete list)
-    libdirs = user_libdirs+[os.path.join(sys.prefix, 'lib'), '/usr/local/lib', '/usr/lib','/usr/lib/x86_64-linux-gnu']
+    libdirs = user_libdirs+[os.path.join(sys.prefix, 'lib'), '/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu']
     compiler = ccompiler.new_compiler()
     return compiler.find_library_file(libdirs, libname)
 
@@ -83,38 +84,22 @@ def cpp_flag(compiler):
                            'is needed!')
 
 
-def find_boost():
-    """Find the name of the boost-python library. Returns None if none is found."""
-    boostlibnames = ['boost_python-py%s%s' % (sys.version_info[0], sys.version_info[1])]
-    boostlibnames += ['boost_python']
-    if sys.version_info[0] == 2:
-        boostlibnames += ["boost_python-mt"]
-    else:
-        boostlibnames += ["boost_python3-mt"]
-    for libboostname in boostlibnames:
-        if find_library_file(libboostname):
-            return libboostname
-    return None
-
-
-boost_python = find_boost()
-if boost_python is None:
-    raise Exception("Could not find a boost library")
-
-
 extension_metas = (
-    # name, sources, depends, libraries
+    # name, sources, depends, libraries, include_dirs
     (
         "casacore.fitting._fitting",
         ["src/fit.cc", "src/fitting.cc"],
         ["src/fitting.h"],
-        ['casa_scimath', 'casa_scimath_f', boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)],
+        ['casa_scimath', 'casa_scimath_f', casa_python],
+        [get_pybind_include(), get_pybind_include(user=True)],
+
     ),
     (
         "casacore.functionals._functionals",
         ["src/functional.cc", "src/functionals.cc"],
         ["src/functionals.h"],
-        ['casa_scimath', 'casa_scimath_f', boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)],
+        ['casa_scimath', 'casa_scimath_f', casa_python],
+        [get_pybind_include(), get_pybind_include(user=True)],
     ),
     (
         "casacore.images._images",
@@ -123,28 +108,32 @@ extension_metas = (
         ['casa_images', 'casa_coordinates',
          'casa_fits', 'casa_lattices', 'casa_measures',
          'casa_scimath', 'casa_scimath_f', 'casa_tables', 'casa_mirlib',
-         boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)]
+         casa_python],
+        [get_pybind_include(), get_pybind_include(user=True)],
     ),
     (
         "casacore.measures._measures",
         ["src/pymeas.cc", "src/pymeasures.cc"],
         ["src/pymeasures.h"],
         ['casa_measures', 'casa_scimath', 'casa_scimath_f', 'casa_tables',
-         boost_python, casa_python, get_pybind_include(), get_pybind_include(user=True)]
+         casa_python],
+        [get_pybind_include(), get_pybind_include(user=True)],
     ),
     (
         "casacore.quanta._quanta",
         ["src/quanta.cc", "src/quantamath.cc", "src/quantity.cc",
             "src/quantvec.cc"],
         ["src/quanta.h"],
-        ["casa_casa", boost_python, casa_python,  get_pybind_include(), get_pybind_include(user=True)],
+        ["casa_casa", casa_python],
+        [get_pybind_include(), get_pybind_include(user=True)],
     ),
     (
         "casacore.tables._tables",
         ["src/pytable.cc", "src/pytableindex.cc", "src/pytableiter.cc",
          "src/pytablerow.cc", "src/tables.cc", "src/pyms.cc"],
         ["src/tables.h"],
-        ['casa_tables', 'casa_ms', boost_python, casa_python,  get_pybind_include(), get_pybind_include(user=True)],
+        ['casa_tables', 'casa_ms', casa_python],
+        [get_pybind_include(), get_pybind_include(user=True)],
     )
 )
 
@@ -170,9 +159,8 @@ if LooseVersion(casacoreversion.decode()) < LooseVersion(__mincasacoreversion__)
 
 extensions = []
 for meta in extension_metas:
-    name, sources, depends, libraries = meta
+    name, sources, depends, libraries, include_dirs = meta
 
-    # Add dependency on casacore libraries to trigger rebuild at casacore update
     for library in libraries:
         if 'casa' in library:
             found_lib = find_library_file(library)
@@ -180,12 +168,40 @@ for meta in extension_metas:
                 depends = depends+[found_lib]
 
     extensions.append(Extension(name=name, sources=sources, depends=depends,
-                                libraries=libraries))
+                                libraries=libraries, include_dirs=include_dirs,
+                                language='c++'))
+
+
+class BuildExt(build_ext):
+    """A custom build extension for adding compiler-specific options."""
+
+    c_opts = {
+        'msvc': ['/EHsc'],
+        'unix': [],
+    }
+
+    if sys.platform == 'darwin':
+        c_opts['unix'] += ['-stdlib=libc++', '-mmacosx-version-min=10.7']
+
+    def build_extensions(self):
+        ct = self.compiler.compiler_type
+        opts = self.c_opts.get(ct, [])
+        if ct == 'unix':
+            opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
+            opts.append(cpp_flag(self.compiler))
+            if has_flag(self.compiler, '-fvisibility=hidden'):
+                opts.append('-fvisibility=hidden')
+        elif ct == 'msvc':
+            opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
+        for ext in self.extensions:
+            ext.extra_compile_args = opts
+        build_ext.build_extensions(self)
+
 
 setup(name='python-casacore',
       version=__version__,
       description='A wrapper around CASACORE, the radio astronomy library',
-      install_requires=['numpy', 'argparse'],
+      install_requires=['numpy', 'argparse', 'pybind11>=1.7'],
       author='Gijs Molenaar',
       author_email='gijs@pythonic.nl',
       url='https://github.com/casacore/python-casacore',
@@ -193,4 +209,5 @@ setup(name='python-casacore',
       long_description=read('README.rst'),
       packages=find_packages(),
       ext_modules=extensions,
+      cmdclass={'build_ext': BuildExt},
       license='GPL')
