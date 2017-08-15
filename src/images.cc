@@ -40,7 +40,7 @@
 
 PYBIND11_PLUGIN(_images)
 {
-  py::model m("images", "images python binding");
+  py::module m("images", "images python binding");
   // Register the required pyrap converters.
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();

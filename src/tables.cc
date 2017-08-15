@@ -38,7 +38,7 @@
 
 PYBIND11_PLUGIN(_tables)
 {
-  py::model m("tables", "tables python binding");
+  py::module m("tables", "tables python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_valueholder();

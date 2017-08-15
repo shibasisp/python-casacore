@@ -37,9 +37,10 @@
 
 PYBIND11_PLUGIN(_fitting)
 {
-  py::model m("fitting", "fitting python binding");
+  py::module m("fitting", "fitting python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_record();
   casa::python::fit(m);
+  return m.ptr();
 }

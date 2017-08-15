@@ -35,7 +35,7 @@
 
 PYBIND11_PLUGIN(_quanta)
 {
-  py::model m("quanta", "quanta python binding");
+  py::module m("quanta", "quanta python binding");
   casa::python::register_convert_excp();
   casa::python::register_convert_basicdata();
   casa::python::register_convert_casa_record();
