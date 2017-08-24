@@ -31,6 +31,7 @@
 #include <pybind11/pybind11.h>
 #include <casacore/casa/aips.h>
 
+namespace py = pybind11;
 namespace casacore {
   namespace python {
     void pyimages(py::module& m);

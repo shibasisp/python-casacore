@@ -42,4 +42,5 @@ PYBIND11_PLUGIN(_functionals)
   casa::python::register_convert_casa_record();
 
   casa::python::functional(m);
+  return m.ptr();
 }

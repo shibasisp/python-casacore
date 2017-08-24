@@ -49,6 +49,7 @@ PYBIND11_PLUGIN(_tables)
   casa::python::pytablerow(m);
   casa::python::pytableiter(m);
   casa::python::pytableindex(m);
-
   casa::python::pyms(m);
+
+  return m.ptr();
 }

@@ -54,4 +54,5 @@ PYBIND11_PLUGIN(_images)
 
   // Make python interface to images.
   casa::python::pyimages(m);
+  return m.ptr();
 }

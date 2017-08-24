@@ -43,4 +43,6 @@ PYBIND11_PLUGIN(_quanta)
   casa::python::quantity(m);
   casa::python::quantvec(m);
   casa::python::quantamath(m);
+
+  return m.ptr();
 }

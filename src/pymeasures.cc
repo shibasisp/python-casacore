@@ -40,4 +40,5 @@ PYBIND11_PLUGIN(_measures)
   casa::python::register_convert_casa_record();
 
   casa::python::pymeas(m);
+  return m.ptr();
 }
