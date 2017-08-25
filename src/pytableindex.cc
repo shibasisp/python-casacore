@@ -40,9 +40,8 @@ namespace casacore { namespace python {
 
   void pytableindex(py::module& m)
   {
-    py::class_<TableIndexProxy> (m, "TableIndex",
-	    py::init<TableProxy, Vector<String>, Bool>())
-
+    py::class_<TableIndexProxy> (m, "TableIndex")
+      .def(py::init<TableProxy, Vector<String>, Bool>())
       .def ("_isunique", &TableIndexProxy::isUnique)
       .def ("_colnames", &TableIndexProxy::columnNames)
       .def ("_setchanged", &TableIndexProxy::setChanged)

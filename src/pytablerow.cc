@@ -40,9 +40,9 @@ namespace casacore { namespace python {
 
   void pytablerow(py::module& m)
   {
-    py::class_<TableRowProxy> (m, "TableRow",
-	    py::init<TableProxy, Vector<String>, Bool>())
+    py::class_<TableRowProxy> (m, "TableRow")
 
+      .def(py::init<TableProxy, Vector<String>, Bool>())
       .def ("_iswritable", &TableRowProxy::isWritable)
       .def ("_get", &TableRowProxy::get,
 	     py::arg("rownr"))

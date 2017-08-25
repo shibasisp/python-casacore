@@ -42,8 +42,8 @@ namespace casacore { namespace python {
   void pytable(py::module& m)
   {
     // Note that all constructors must have a different number of arguments.
-    py::class_<TableProxy> (m, "Table",
-            py::init<>())
+    py::class_<TableProxy> (m, "Table")
+      .def(py::init<>())
 	    //  1 arg: copy constructor
       .def (py::init<TableProxy>())
 	    //  2 arg: table query command

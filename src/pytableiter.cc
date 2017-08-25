@@ -40,9 +40,8 @@ namespace casacore { namespace python {
 
   void pytableiter(py::module& m)
   {
-    py::class_<TableIterProxy> (m, "TableIter",
-	    py::init<TableProxy, Vector<String>, String, String>())
-
+    py::class_<TableIterProxy> (m, "TableIter")
+      .def(py::init<TableProxy, Vector<String>, String, String>())
       .def ("_reset", &TableIterProxy::reset)
       .def ("_next", &TableIterProxy::next)
       ;
