@@ -159,9 +159,10 @@ namespace casacore { namespace python {
       .def (py::init< >())
       .def (py::init< const Quantity& > ())
       .def (py::init< Double, const String& >())
-      .def ("__repr__", &printQuantum, (py::arg("self"),
+      .def ("__repr__", &printQuantum,
+                    py::arg("self"),
 					py::arg("fmt")="",
-					py::arg("precision")=0))
+					py::arg("precision")=0)
       .def ("get_value", (const Double& ( Quantity::* )( ) const)(&Quantity::getValue),
 	    py::return_value_policy < py::copy_const_reference> ()
 	    )
@@ -225,9 +226,9 @@ namespace casacore { namespace python {
       .def (py::self >= py::self)
       .def (py::self >= Double())
       .def (Double() >= py::self)
-      .def ("formatted", &printQuantum, printQuantumOVL((py::arg("q"),
+      .def ("formatted", &printQuantum, printQuantumOVL(py::arg("q"),
                                                          py::arg("fmt")="",
-							 py::arg("precision")=0)))
+							 py::arg("precision")=0))
       ;
     py::def ("from_string", &fromString);
     py::def ("from_dict", &fromRecord);

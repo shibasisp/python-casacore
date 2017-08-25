@@ -45,11 +45,11 @@ namespace casacore { namespace python {
 
       .def ("_iswritable", &TableRowProxy::isWritable)
       .def ("_get", &TableRowProxy::get,
-	    (py::arg("rownr")))
+	     py::arg("rownr"))
       .def ("_put", &TableRowProxy::put,
-	    (py::arg("rownr"),
+	     py::arg("rownr"),
 	     py::arg("value"),
-	     py::arg("matchingfields")))
+	     py::arg("matchingfields"))
       ;
   }
 

@@ -199,8 +199,9 @@ namespace casacore { namespace python {
       .def (py::init< >())
       .def (py::init< const QProxy& > ())
       .def (py::init< const VD&, const String& >())
-      .def ("__repr__", &qpprintQuantum, (py::arg("self"),
-					py::arg("fmt")=""))
+      .def ("__repr__", &qpprintQuantum,
+                    py::arg("self"),
+					py::arg("fmt")="")
       .def ("_get_value", (const VD& ( QProxy::* )( ) const)(&QProxy::getValue),
 	    py::return_value_policy < py::copy_const_reference> ()
 	    )

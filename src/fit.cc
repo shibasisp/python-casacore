@@ -48,35 +48,35 @@ namespace casacore { namespace python {
       .def ("reset", &FittingProxy::reset)
       .def ("set", &FittingProxy::set)
       .def ("functional", &FittingProxy::functional,
- 	    (py::arg("id"),
+ 	     py::arg("id"),
 	     py::arg("fnct"),
 	     py::arg("x"),
  	     py::arg("y"),
  	     py::arg("wt"),
  	     py::arg("mxit"),
- 	     py::arg("constraint")))
+ 	     py::arg("constraint"))
       .def ("linear", &FittingProxy::linear,
- 	    (py::arg("id"),
+ 	     py::arg("id"),
 	     py::arg("fnct"),
 	     py::arg("x"),
  	     py::arg("y"),
  	     py::arg("wt"),
- 	     py::arg("constraint")))
+ 	     py::arg("constraint"))
       .def ("cxfunctional", &FittingProxy::cxfunctional,
- 	    (py::arg("id"),
+ 	     py::arg("id"),
 	     py::arg("fnct"),
 	     py::arg("x"),
  	     py::arg("y"),
  	     py::arg("wt"),
  	     py::arg("mxit"),
- 	     py::arg("constraint")))
+ 	     py::arg("constraint"))
       .def ("cxlinear", &FittingProxy::cxlinear,
- 	    (py::arg("id"),
+ 	     py::arg("id"),
 	     py::arg("fnct"),
 	     py::arg("x"),
  	     py::arg("y"),
  	     py::arg("wt"),
- 	     py::arg("constraint")))
+ 	     py::arg("constraint"))
         ;
   }
 }}

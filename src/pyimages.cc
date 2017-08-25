@@ -71,77 +71,77 @@ namespace casacore { namespace python {
       .def ("_putdata", &ImageProxy::putData)
       .def ("_putmask", &ImageProxy::putMask)
       .def ("_haslock", &ImageProxy::hasLock,
- 	    (py::arg("write")))
+ 	         py::arg("write"))
       .def ("_lock", &ImageProxy::lock,
- 	    (py::arg("write"),
- 	     py::arg("nattempts")))
+ 	         py::arg("write"),
+ 	         py::arg("nattempts"))
       .def ("_unlock", &ImageProxy::unlock)
       .def ("_attrgroupnames", &ImageProxy::attrGroupNames)
       .def ("_attrcreategroup", &ImageProxy::createAttrGroup,
-            (py::arg("groupname")))
+             py::arg("groupname"))
       .def ("_attrnames", &ImageProxy::attrNames,
-            (py::arg("groupname")))
+             py::arg("groupname"))
       .def ("_attrnrows", &ImageProxy::attrNrows,
-            (py::arg("groupname")))
+             py::arg("groupname"))
       .def ("_attrget", &ImageProxy::getAttr,
-            (py::arg("groupname"),
+             py::arg("groupname"),
              py::arg("attrname"),
-             py::arg("rownr")))
+             py::arg("rownr"))
       .def ("_attrgetrow", &ImageProxy::getAttrRow,
-            (py::arg("groupname"),
-             py::arg("rownr")))
+             py::arg("groupname"),
+             py::arg("rownr"))
       .def ("_attrgetunit", &ImageProxy::getAttrUnit,
-            (py::arg("groupname"),
-             py::arg("attrname")))
+             py::arg("groupname"),
+             py::arg("attrname"))
       .def ("_attrgetmeas", &ImageProxy::getAttrMeas,
-            (py::arg("groupname"),
-             py::arg("attrname")))
+             py::arg("groupname"),
+             py::arg("attrname"))
       .def ("_attrput", &ImageProxy::putAttr,
-            (py::arg("groupname"),
+             py::arg("groupname"),
              py::arg("attrname"),
              py::arg("rownr"),
              py::arg("value"),
              py::arg("unit"),
-             py::arg("meas")))
+             py::arg("meas"))
       .def ("_subimage", &ImageProxy::subImage,
-            (py::arg("blc"),
+             py::arg("blc"),
              py::arg("trc"),
              py::arg("inc"),
-             py::arg("dropdegenerate")))
+             py::arg("dropdegenerate"))
       .def ("_coordinates", &ImageProxy::coordSys)
       .def ("_toworld", &ImageProxy::toWorld,
-            (py::arg("pixel"),
-             py::arg("reverseAxes")))
+             py::arg("pixel"),
+             py::arg("reverseAxes"))
       .def ("_topixel", &ImageProxy::toPixel,
-            (py::arg("world"),
-             py::arg("reverseAxes")))
+             py::arg("world"),
+             py::arg("reverseAxes"))
       .def ("_imageinfo", &ImageProxy::imageInfo)
       .def ("_miscinfo", &ImageProxy::miscInfo)
       .def ("_unit", &ImageProxy::unit)
       .def ("_history", &ImageProxy::history)
       .def ("_tofits", &ImageProxy::toFits,
-            (py::arg("filename"),
+             py::arg("filename"),
              py::arg("overwrite"),
              py::arg("velocity"),
              py::arg("optical"),
              py::arg("bitpix"),
              py::arg("minpix"),
-             py::arg("maxpix")))
+             py::arg("maxpix"))
       .def ("_saveas", &ImageProxy::saveAs,
-            (py::arg("filename"),
+             py::arg("filename"),
              py::arg("overwrite"),
              py::arg("hdf5"),
              py::arg("copymask"),
              py::arg("newmaskname"),
-             py::arg("newtileshape")))
+             py::arg("newtileshape"))
       .def ("_statistics", &ImageProxy::statistics,
-            (py::arg("axes"),
+             py::arg("axes"),
              py::arg("mask"),
              py::arg("minMaxValues"),
              py::arg("exclude"),
-             py::arg("robust")))
+             py::arg("robust"))
       .def ("_regrid", &ImageProxy::regrid,
-            (py::arg("axes"),
+             py::arg("axes"),
              py::arg("outname"),
              py::arg("overwrite"),
              py::arg("outshape"),
@@ -150,7 +150,7 @@ namespace casacore { namespace python {
              py::arg("decimate"),
              py::arg("replicate"),
              py::arg("refchange"),
-             py::arg("forceregrid")))
+             py::arg("forceregrid"))
     ;
   }
 
