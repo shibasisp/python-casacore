@@ -230,8 +230,8 @@ namespace casacore { namespace python {
                                                          py::arg("fmt")="",
 							 py::arg("precision")=0))
       ;
-    py::def ("from_string", &fromString);
-    py::def ("from_dict", &fromRecord);
+    m.def ("from_string", &fromString);
+    m.def ("from_dict", &fromRecord);
 
   }
 }}

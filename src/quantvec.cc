@@ -222,7 +222,7 @@ namespace casacore { namespace python {
       .def ("to_time", &qptoTime)
       .def ("toangle", &qptoAngle)
       .def ("to_angle", &qptoAngle)
-       .def ("to_dict", &qptoRecord)
+      .def ("to_dict", &qptoRecord)
       .def (-py::self)
       .def (py::self - py::self)
       .def (py::self -= py::self)
@@ -268,7 +268,7 @@ namespace casacore { namespace python {
       .def (VD() >= py::self)
       .def ("formatted", &qpprintQuantum)
       ;
-    py::def ("from_dict_v", &qpfromRecord);
+    m.def ("from_dict_v", &qpfromRecord);
 
   }
 }}

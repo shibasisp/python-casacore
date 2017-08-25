@@ -106,89 +106,89 @@ namespace casacore {
     void quantamath(py::module& m)
     {
       // misc
-      py::def ("constants", &constants);
-      py::def ("units", &units);
-      py::def ("prefixes", &prefixes);
+      m.def ("constants", &constants);
+      m.def ("units", &units);
+      m.def ("prefixes", &prefixes);
 
       // Quantum<Vector<Double> > functions
 
-      py::def ("nearabs", (Bool ( * )( const QProxy&, const QProxy&,
+      m.def ("nearabs", (Bool ( * )( const QProxy&, const QProxy&,
 				   Double ) )(&nearAbs));
-      py::def ("nearabs", (Bool ( * )( const VD&, const QProxy&,
+      m.def ("nearabs", (Bool ( * )( const VD&, const QProxy&,
 				   Double ) )(&nearAbs));
-      py::def ("nearabs", (Bool ( * )( const QProxy&, const VD&,
+      m.def ("nearabs", (Bool ( * )( const QProxy&, const VD&,
 				   Double ) )(&nearAbs));
 
-      py::def ("near", (Bool ( * )( const QProxy&, const QProxy&,
+      m.def ("near", (Bool ( * )( const QProxy&, const QProxy&,
 				Double ) )(&near));
-      py::def ("near", (Bool ( * )( const VD&, const QProxy&,
+      m.def ("near", (Bool ( * )( const VD&, const QProxy&,
 				Double ) )(&near));
-      py::def ("near", (Bool ( * )( const QProxy&, const VD&,
+      m.def ("near", (Bool ( * )( const QProxy&, const VD&,
 				Double ) )(&near));
 
-      py::def ("abs", (QProxy ( * )( const QProxy&) )(&abs));
-      py::def ("pow", (QProxy ( * )( const QProxy&, Int) )(&pow));
-      py::def ("root", (QProxy ( * )( const QProxy&, Int) )(&root));
-      py::def ("sqrt", (QProxy ( * )( const QProxy&) )(&sqrt));
-      py::def ("ceil", (QProxy ( * )( const QProxy&) )(&ceil));
-      py::def ("floor", (QProxy ( * )( const QProxy&) )(&floor));
+      m.def ("abs", (QProxy ( * )( const QProxy&) )(&abs));
+      m.def ("pow", (QProxy ( * )( const QProxy&, Int) )(&pow));
+      m.def ("root", (QProxy ( * )( const QProxy&, Int) )(&root));
+      m.def ("sqrt", (QProxy ( * )( const QProxy&) )(&sqrt));
+      m.def ("ceil", (QProxy ( * )( const QProxy&) )(&ceil));
+      m.def ("floor", (QProxy ( * )( const QProxy&) )(&floor));
 
-      py::def ("sin", (QProxy ( * )( const QProxy&) )(&sin));
-      py::def ("cos", (QProxy ( * )( const QProxy&) )(&cos));
-      py::def ("tan", (QProxy ( * )( const QProxy&) )(&tan));
-      py::def ("asin", (QProxy ( * )( const QProxy&) )(&asin));
-      py::def ("acos", (QProxy ( * )( const QProxy&) )(&acos));
-      py::def ("atan", (QProxy ( * )( const QProxy&) )(&atan));
-      py::def ("atan2", (QProxy ( * )( const QProxy&, const QProxy&) )(&atan2));
-      py::def ("atan2", (QProxy ( * )( const QProxy&, const VD&) )(&atan2));
-      py::def ("atan2", (QProxy ( * )( const VD&, const QProxy&) )(&atan2));
+      m.def ("sin", (QProxy ( * )( const QProxy&) )(&sin));
+      m.def ("cos", (QProxy ( * )( const QProxy&) )(&cos));
+      m.def ("tan", (QProxy ( * )( const QProxy&) )(&tan));
+      m.def ("asin", (QProxy ( * )( const QProxy&) )(&asin));
+      m.def ("acos", (QProxy ( * )( const QProxy&) )(&acos));
+      m.def ("atan", (QProxy ( * )( const QProxy&) )(&atan));
+      m.def ("atan2", (QProxy ( * )( const QProxy&, const QProxy&) )(&atan2));
+      m.def ("atan2", (QProxy ( * )( const QProxy&, const VD&) )(&atan2));
+      m.def ("atan2", (QProxy ( * )( const VD&, const QProxy&) )(&atan2));
 
-      py::def ("log", (QProxy ( * )( const QProxy&) )(&log));
-      py::def ("log10", (QProxy ( * )( const QProxy&) )(&log10));
-      py::def ("exp", (QProxy ( * )( const QProxy&) )(&exp));
+      m.def ("log", (QProxy ( * )( const QProxy&) )(&log));
+      m.def ("log10", (QProxy ( * )( const QProxy&) )(&log10));
+      m.def ("exp", (QProxy ( * )( const QProxy&) )(&exp));
 
 
       // Quantity functions
 
-      py::def ("nearabs", (Bool ( * )( const Quantity&,
+      m.def ("nearabs", (Bool ( * )( const Quantity&,
 				   const Quantity&) )(&nearAbs));
-      py::def ("nearabs", (Bool ( * )( const Quantity&, const Quantity&,
+      m.def ("nearabs", (Bool ( * )( const Quantity&, const Quantity&,
 				   Double ) )(&nearAbs));
-      py::def ("nearabs", (Bool ( * )( const Double&, const Quantity&,
+      m.def ("nearabs", (Bool ( * )( const Double&, const Quantity&,
 				   Double ) )(&nearAbs));
-      py::def ("nearabs", (Bool ( * )( const Quantity&, const Double&,
+      m.def ("nearabs", (Bool ( * )( const Quantity&, const Double&,
 				   Double ) )(&nearAbs));
-      py::def ("near", (Bool ( * )( const Quantity&, const Quantity&) )(&near));
+      m.def ("near", (Bool ( * )( const Quantity&, const Quantity&) )(&near));
 
-      py::def ("near", (Bool ( * )( const Quantity&, const Quantity&,
+      m.def ("near", (Bool ( * )( const Quantity&, const Quantity&,
 				Double ) )(&near));
-      py::def ("near", (Bool ( * )( const Double&, const Quantity&,
+      m.def ("near", (Bool ( * )( const Double&, const Quantity&,
 				Double ) )(&near));
-      py::def ("near", (Bool ( * )( const Quantity&, const Double&,
+      m.def ("near", (Bool ( * )( const Quantity&, const Double&,
 				Double ) )(&near));
-      py::def ("abs", (Quantity ( * )( const Quantity&) )(&abs));
-      py::def ("pow", (Quantity ( * )( const Quantity&, Int) )(&pow));
-      py::def ("root", (Quantity ( * )( const Quantity&, Int) )(&root));
-      py::def ("sqrt", (Quantity ( * )( const Quantity&) )(&sqrt));
-      py::def ("ceil", (Quantity ( * )( const Quantity&) )(&ceil));
-      py::def ("floor", (Quantity ( * )( const Quantity&) )(&floor));
+      m.def ("abs", (Quantity ( * )( const Quantity&) )(&abs));
+      m.def ("pow", (Quantity ( * )( const Quantity&, Int) )(&pow));
+      m.def ("root", (Quantity ( * )( const Quantity&, Int) )(&root));
+      m.def ("sqrt", (Quantity ( * )( const Quantity&) )(&sqrt));
+      m.def ("ceil", (Quantity ( * )( const Quantity&) )(&ceil));
+      m.def ("floor", (Quantity ( * )( const Quantity&) )(&floor));
 
-      py::def ("sin", (Quantity ( * )( const Quantity&) )(&sin));
-      py::def ("cos", (Quantity ( * )( const Quantity&) )(&cos));
-      py::def ("tan", (Quantity ( * )( const Quantity&) )(&tan));
-      py::def ("asin", (Quantity ( * )( const Quantity&) )(&asin));
-      py::def ("acos", (Quantity ( * )( const Quantity&) )(&acos));
-      py::def ("atan", (Quantity ( * )( const Quantity&) )(&atan));
-      py::def ("atan2", (Quantity ( * )( const Quantity&,
+      m.def ("sin", (Quantity ( * )( const Quantity&) )(&sin));
+      m.def ("cos", (Quantity ( * )( const Quantity&) )(&cos));
+      m.def ("tan", (Quantity ( * )( const Quantity&) )(&tan));
+      m.def ("asin", (Quantity ( * )( const Quantity&) )(&asin));
+      m.def ("acos", (Quantity ( * )( const Quantity&) )(&acos));
+      m.def ("atan", (Quantity ( * )( const Quantity&) )(&atan));
+      m.def ("atan2", (Quantity ( * )( const Quantity&,
 				     const Quantity&) )(&atan2));
-      py::def ("atan2", (Quantity ( * )( const Quantity&,
+      m.def ("atan2", (Quantity ( * )( const Quantity&,
 				     const Double&) )(&atan2));
-      py::def ("atan2", (Quantity ( * )( const Double&,
+      m.def ("atan2", (Quantity ( * )( const Double&,
 				     const Quantity&) )(&atan2));
 
-      py::def ("log", (Quantity ( * )( const Quantity&) )(&log));
-      py::def ("log10", (Quantity ( * )( const Quantity&) )(&log10));
-      py::def ("exp", (Quantity ( * )( const Quantity&) )(&exp));
+      m.def ("log", (Quantity ( * )( const Quantity&) )(&log));
+      m.def ("log10", (Quantity ( * )( const Quantity&) )(&log10));
+      m.def ("exp", (Quantity ( * )( const Quantity&) )(&exp));
     }
   }
 }
