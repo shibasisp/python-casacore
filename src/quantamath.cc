@@ -53,7 +53,7 @@ namespace casacore {
 	QC::R0, QC::k2
       };
       for (int i=0; i<20;++i) {
-	d[types[i]] = res[i];
+	d[py::str(types[i])] = res[i];
       }
       return d;
     }
@@ -81,7 +81,7 @@ namespace casacore {
         oss<<(i->second).getVal().getDim();
         Quantity q((i->second).getVal().getFac(),oss.str());
         unitdesc.append(q);
-        d[(i->second).getName() ] = unitdesc;
+        d[py::str((i->second).getName())] = unitdesc;
       }
       return d;
     }

@@ -37,6 +37,7 @@
 #include <casacore/casa/BasicSL/String.h>
 
 #include<pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 #include <boost/python/overloads.hpp>
@@ -164,11 +165,10 @@ namespace casacore { namespace python {
 					py::arg("fmt")="",
 					py::arg("precision")=0)
       .def ("get_value", (const Double& ( Quantity::* )( ) const)(&Quantity::getValue),
-	    py::return_value_policy < py::copy_const_reference> ()
-	    )
+	    py::return_value_policy::copy )
       .def ("get_value", &getValueWithUnit)
       .def ("get_unit", &Quantity::getUnit,
-	    py::return_value_policy < py::copy_const_reference> ())
+	    py::return_value_policy::copy )
       .def ("convert", (void ( Quantity::* )( const Quantity& ) )(&Quantity::convert))
       .def ("convert", (void ( Quantity::* )( ) )(&Quantity::convert))
       .def ("set_value", &Quantity::setValue)
@@ -227,8 +227,8 @@ namespace casacore { namespace python {
       .def (py::self >= Double())
       .def (Double() >= py::self)
       .def ("formatted", &printQuantum, printQuantumOVL(py::arg("q"),
-                                                         py::arg("fmt")="",
-							 py::arg("precision")=0))
+                                                        py::arg("fmt")="",
+							                            py::arg("precision")=0))
       ;
     m.def ("from_string", &fromString);
     m.def ("from_dict", &fromRecord);

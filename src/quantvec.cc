@@ -37,6 +37,7 @@
 #include <casacore/casa/BasicSL/String.h>
 
 #include<pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <boost/python.hpp>
 #include <boost/python/args.hpp>
 
@@ -200,14 +201,13 @@ namespace casacore { namespace python {
       .def (py::init< const QProxy& > ())
       .def (py::init< const VD&, const String& >())
       .def ("__repr__", &qpprintQuantum,
-                    py::arg("self"),
-					py::arg("fmt")="")
+                    (py::arg("self"),
+					py::arg("fmt")=""))
       .def ("_get_value", (const VD& ( QProxy::* )( ) const)(&QProxy::getValue),
-	    py::return_value_policy < py::copy_const_reference> ()
-	    )
+	    py::return_value_policy::copy )
       .def ("_get_value", &qpgetValueWithUnit)
       .def ("get_unit", &QProxy::getUnit,
-	    py::return_value_policy < py::copy_const_reference> ())
+	    py::return_value_policy::copy )
       .def ("convert", (void ( QProxy::* )( const QProxy& ) )(&QProxy::convert))
       .def ("convert", (void ( QProxy::* )( ) )(&QProxy::convert))
       .def ("set_value", &QProxy::setValue)
