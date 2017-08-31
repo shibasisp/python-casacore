@@ -254,10 +254,13 @@ namespace python {
   {
     m.def("_default_ms", &default_ms,
       py::arg("name"),
-      py::arg("table_desc"));
+      py::arg("table_desc"),
+      py::arg("dminfo"));
     m.def("_default_ms_subtable", &default_ms_subtable,
       py::arg("subtable"),
-      py::arg("table_desc"));
+      py::arg("name"),
+      py::arg("table_desc"),
+      py::arg("dminfo"));
     m.def("_required_ms_desc", &required_ms_desc,
       py::arg("table"));
   }
