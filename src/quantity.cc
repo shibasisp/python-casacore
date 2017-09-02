@@ -84,8 +84,6 @@ namespace casacore {
     q.print(oss);
     return String(oss);
   }
-  // Introduce the overloaded PrintQuantum function
-  BOOST_PYTHON_FUNCTION_OVERLOADS(printQuantumOVL, printQuantum, 1, 3)
 
   // these functions take Unit as argument, enable outside access through
   // strings
@@ -161,7 +159,6 @@ namespace casacore { namespace python {
       .def (py::init< const Quantity& > ())
       .def (py::init< Double, const String& >())
       .def ("__repr__", &printQuantum,
-                    py::arg("self"),
 					py::arg("fmt")="",
 					py::arg("precision")=0)
       .def ("get_value", (const Double& ( Quantity::* )( ) const)(&Quantity::getValue),
@@ -226,9 +223,8 @@ namespace casacore { namespace python {
       .def (py::self >= py::self)
       .def (py::self >= Double())
       .def (Double() >= py::self)
-      .def ("formatted", &printQuantum, printQuantumOVL(py::arg("q"),
-                                                        py::arg("fmt")="",
-							                            py::arg("precision")=0))
+      .def ("formatted", &printQuantum, py::arg("fmt")="",
+							            py::arg("precision")=0)
       ;
     m.def ("from_string", &fromString);
     m.def ("from_dict", &fromRecord);
