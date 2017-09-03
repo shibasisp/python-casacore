@@ -12,3 +12,4 @@ casacore.egg-info/
 .virtualenv/
 .virtualenv3/
 htmlcov
+tmp
