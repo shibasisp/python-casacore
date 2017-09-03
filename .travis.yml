@@ -1,17 +1,48 @@
 language: python
 sudo: required
 dist: trusty
-python:
- - 2.7
- - 3.5
- - 3.6
-os:
- - linux
- # - osx
+
+matrix:
+    include:
+        - os: linux
+          python: "2.7"
+
+        - os: linux
+          python: "3.5"
+
+        - os: linux
+          python: "3.6"
+
+        # Use generic language for osx
+        - os: osx
+          language: generic
+          python: "2.7"
+          env: TRAVIS_PYTHON_VERSION=2.7
+
+        - os: osx
+          language: generic
+          python: "3.5"
+          env: TRAVIS_PYTHON_VERSION=3.5
+
+        - os: osx
+          language: generic
+          python: "3.6"
+          env: TRAVIS_PYTHON_VERSION=3.6
+
+    allow_failures:
+    - os: osx
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    - deadsnakes
+    packages:
+    - g++-4.8
+    - python3.5
+    - python3.5-dev
 
 before_install:
  - .travis/before_install.sh
- - pip install pybind11
  - mkdir $HOME/data
  - echo $PWD
  - cd $HOME/data && wget ftp://ftp.astron.nl/outgoing/Measures/WSRT_Measures.ztar && tar xf WSRT_Measures.ztar && cd -
