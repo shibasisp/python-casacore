@@ -27,6 +27,5 @@ conda update -q conda
 conda config --add channels conda-forge
 # Useful for debugging any issues with conda
 conda info -a
-conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0
-
+conda create -q -n testenv python=$TRAVIS_PYTHON_VERSION casacore=2.3.0 pybind11
 echo "measures.directory: $HOME/data" > $HOME/.casarc
